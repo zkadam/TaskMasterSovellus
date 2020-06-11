@@ -1,0 +1,117 @@
+﻿@model IEnumerable<TaskMasterSovellus.ViewModels.SprintClassList>
+
+@{
+    ViewBag.Title = "SprintTasksList";
+}
+
+<h2>SprintTasksLit</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StateId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskPoints)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskPriority)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StateName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TemplateConnectionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SprintTemplateId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SprintId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SprintName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BackgColor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProcessColor)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StateId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskPoints)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskPriority)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StateName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemplateConnectionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SprintTemplateId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SprintId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SprintName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BackgColor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProcessColor)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

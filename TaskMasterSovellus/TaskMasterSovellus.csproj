@@ -400,10 +400,10 @@
     <Content Include="Views\Colors\Details.cshtml" />
     <Content Include="Views\Colors\Edit.cshtml" />
     <Content Include="Views\Colors\Index.cshtml" />
+    <Content Include="Views\SprintTaskList\SprintTasksList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\SprintTaskList\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

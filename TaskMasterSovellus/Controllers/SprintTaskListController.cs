@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TaskMasterSovellus.Models;
+using TaskMasterSovellus.ViewModels;
 
 namespace TaskMasterSovellus.Controllers
 {
@@ -16,7 +17,7 @@ namespace TaskMasterSovellus.Controllers
             private TaskMasterTietokantaEntities db = new TaskMasterTietokantaEntities();
 
             // GET: Sprints
-            public ActionResult SprintTasksLit(int id)
+            public ActionResult SprintTasksList(int id)
             {
             //var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users).Include(s => s.SprintTemplate.TemplateTaskConnection.Select(t => t.TaskState.Tasks));
             //    return View(sprints.ToList());
@@ -24,9 +25,41 @@ namespace TaskMasterSovellus.Controllers
             var tasks = from tas in db.Tasks
                         join tst in db.TaskState on tas.StateId equals tst.StateId /*into tas_tst*/
                         join ttc in db.TemplateTaskConnection on tst.StateId equals ttc.StateId /*into tas_ttc*/
-                        join stl in db.SprintTemplate on tas.TaskState.TemplateTaskConnectio
+                        join stl in db.SprintTemplate on ttc.SprintTemplateId equals stl.SprintTemplateId
+                        join sp in db.Sprints on stl.SprintTemplateId equals sp.TaskTemplateId
+                        join cl in db.Colors on sp.BackgColor equals cl.ColorId
+                        join cl2 in db.Colors on sp.ProcessColor equals cl2.ColorId
+
+                        select new SprintClassList
+                        {
+                            TaskId=tas.StateId,
+                            StateId=tas.StateId,
+                            TaskName= (string)tst.StateName,
+                          TaskDescription = (string)tas.TaskDescription,
+                            TaskPoints=tas.TaskPoints,
+                            TaskPriority=tas.TaskPriority,
 
 
+                            //people connectiontaken out, later when brige to people is built could be included ZA
+                            //public virtual ICollection<TaskPeople> TaskPeople { get; set; }
+                            //public virtual TaskState TaskState { get; set; }
+
+                            //info from task state table ZA
+
+                            StateName=(string)tst.StateName,
+                           TemplateConnectionId=ttc.TemplateConnectionId,
+                           SprintTemplateId=stl.SprintTemplateId,
+                           SprintId=sp.SprintId,
+                           SprintName=(string)sp.SprintName,
+       
+                            //public Nullable<System.DateTime> StartDate { get; set; }
+                            //public Nullable<System.DateTime> EndDate { get; set; }
+                           BackgColor=(string)cl.ColorValue,
+                            ProcessColor=(string)cl2.ColorValue,
+
+    };
+
+            tasks = tasks.Where(t => t.SprintId == id);
 
 
 

@@ -25,14 +25,13 @@ namespace TaskMasterSovellus.ViewModels
         public int TemplateConnectionId { get; set; }
         public int SprintTemplateId { get; set; }
 
-
         public int SprintId { get; set; }
         public string SprintName { get; set; }
-        public Nullable<int> AdminId { get; set; }
+        //public Nullable<int> AdminId { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<int> BackgColor { get; set; }
-        public Nullable<int> ProcessColor { get; set; }
+        public string BackgColor { get; set; }
+        public string ProcessColor { get; set; }
 
 
     }
