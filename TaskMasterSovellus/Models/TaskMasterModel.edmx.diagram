@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0f49fa4a4fc24c02aa619a460aeadcf2" Name="Diagram1">
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Colors" Width="1.5" PointX="5.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.GroupLink" Width="1.5" PointX="5.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Groups" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Logins" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.ProjectConnection" Width="1.5" PointX="6" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Projects" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Sprints" Width="1.5" PointX="8" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.SprintTemplate" Width="1.5" PointX="5.75" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.TaskPeople" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Tasks" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.TaskState" Width="1.5" PointX="0.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.TemplateTaskConnection" Width="1.5" PointX="8" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.UserGroupLink" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Users" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Sprints_Process_color" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__GroupLink__Group__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__GroupLink__Proje__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__UserGroup__Group__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Logins__UserId__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__ProjectCo__Proje__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Projects__AdminI__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Sprints_STemplate" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__TemplateT__Sprin__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__TaskPeopl__TaskI__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__TaskPeopl__UserG__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Tasks__StateId__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__TemplateT__State__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__UserGroup__UserI__72C60C4A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
