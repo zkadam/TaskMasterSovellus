@@ -1,0 +1,69 @@
+﻿@model IEnumerable<TaskMasterSovellus.Models.Sprints>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SprintName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Colors.ColorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Colors1.ColorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Users.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SprintTemplate.SprintTemplateName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SprintName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Colors.ColorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Colors1.ColorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Users.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SprintTemplate.SprintTemplateName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SprintId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SprintId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SprintId })
+        </td>
+    </tr>
+}
+
+</table>

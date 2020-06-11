@@ -1,0 +1,34 @@
+﻿@model TaskMasterSovellus.Models.TemplateTaskConnection
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TemplateTaskConnection</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SprintTemplate.SprintTemplateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SprintTemplate.SprintTemplateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskState.StateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskState.StateName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TemplateConnectionId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
