@@ -59,7 +59,7 @@
             @Html.DisplayFor(modelItem => item.SprintTemplate.SprintTemplateName)
         </td>
         <td>
-            @Html.ActionLink("view sprint tasks", "SprintTasksList", "SprintTaskList", new { id = item.SprintId }, null)
+            @Html.ActionLink("view sprint tasks", "SprintTasksList", "SprintTaskList", new { id = item.SprintId }, null) |
             @Html.ActionLink("Edit", "Edit", new { id = item.SprintId }) |
             @Html.ActionLink("Details", "Details", new { id = item.SprintId }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.SprintId })

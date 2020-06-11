@@ -32,9 +32,9 @@ namespace TaskMasterSovellus.Controllers
 
                         select new SprintClassList
                         {
-                            TaskId=tas.StateId,
+                            TaskId=tas.TaskId,
                             StateId=tas.StateId,
-                            TaskName= (string)tst.StateName,
+                            TaskName= (string)tas.TaskName,
                           TaskDescription = (string)tas.TaskDescription,
                             TaskPoints=tas.TaskPoints,
                             TaskPriority=tas.TaskPriority,
