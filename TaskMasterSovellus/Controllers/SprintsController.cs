@@ -21,6 +21,19 @@ namespace TaskMasterSovellus.Controllers
             return View(sprints.ToList());
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
         // GET: Sprints/Details/5
         public ActionResult Details(int? id)
         {

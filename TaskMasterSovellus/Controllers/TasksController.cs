@@ -15,12 +15,12 @@ namespace TaskMasterSovellus.Controllers
         private TaskMasterTietokantaEntities db = new TaskMasterTietokantaEntities();
 
         // GET: Tasks
-        public ActionResult TaskListOfSprint(int id)
-        {
-            var tasks = db.Tasks.Include(t => t.TaskState).Include(t=>t.TaskState.TemplateTaskConnection.Select(s=>s.SprintTemplate).Select(s=>s.Sprints)).Include(s=>s.);
+        //public ActionResult TaskListOfSprint(int id)
+        //{
+        //    var tasks = db.Tasks.Include(t => t.TaskState).Include(t=>t.TaskState.TemplateTaskConnection.Select(s=>s.SprintTemplate).Select(s=>s.Sprints)).Include(s=>s.);
             
-            return View(tasks.ToList());
-        }
+        //    return View(tasks.ToList());
+        //}
           public ActionResult Index()
         {
             var tasks = db.Tasks.Include(t => t.TaskState);
