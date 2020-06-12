@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TaskMasterTietokantaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TaskMasterTietokantaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Colors">
           <Key>
             <PropertyRef Name="ColorId" />
@@ -62,7 +62,6 @@
           </Key>
           <Property Name="SprintId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SprintName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="TaskTemplateId" Type="int" />
           <Property Name="AdminId" Type="int" />
           <Property Name="StartDate" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
@@ -75,6 +74,14 @@
           </Key>
           <Property Name="SprintTemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SprintTemplateName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SprintTemplateConnection">
+          <Key>
+            <PropertyRef Name="TemplateConnectionId" />
+          </Key>
+          <Property Name="TemplateConnectionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SprintId" Type="int" Nullable="false" />
+          <Property Name="SprintTemplateId" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -328,15 +335,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Sprints_STemplate">
+        <Association Name="FK_SprintTemplateConnection_Sprints">
+          <End Role="Sprints" Type="Self.Sprints" Multiplicity="1" />
+          <End Role="SprintTemplateConnection" Type="Self.SprintTemplateConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sprints">
+              <PropertyRef Name="SprintId" />
+            </Principal>
+            <Dependent Role="SprintTemplateConnection">
+              <PropertyRef Name="SprintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SprintTemplateConnection_SprintTemplate">
           <End Role="SprintTemplate" Type="Self.SprintTemplate" Multiplicity="0..1" />
-          <End Role="Sprints" Type="Self.Sprints" Multiplicity="*" />
+          <End Role="SprintTemplateConnection" Type="Self.SprintTemplateConnection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SprintTemplate">
               <PropertyRef Name="SprintTemplateId" />
             </Principal>
-            <Dependent Role="Sprints">
-              <PropertyRef Name="TaskTemplateId" />
+            <Dependent Role="SprintTemplateConnection">
+              <PropertyRef Name="SprintTemplateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -349,6 +368,7 @@
           <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sprints" EntityType="Self.Sprints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SprintTemplate" EntityType="Self.SprintTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SprintTemplateConnection" EntityType="Self.SprintTemplateConnection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskPeople" EntityType="Self.TaskPeople" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
@@ -420,13 +440,16 @@
             <End Role="Colors" EntitySet="Colors" />
             <End Role="Sprints" EntitySet="Sprints" />
           </AssociationSet>
-          <AssociationSet Name="FK_Sprints_STemplate" Association="Self.FK_Sprints_STemplate">
-            <End Role="SprintTemplate" EntitySet="SprintTemplate" />
+          <AssociationSet Name="FK_SprintTemplateConnection_Sprints" Association="Self.FK_SprintTemplateConnection_Sprints">
             <End Role="Sprints" EntitySet="Sprints" />
+            <End Role="SprintTemplateConnection" EntitySet="SprintTemplateConnection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SprintTemplateConnection_SprintTemplate" Association="Self.FK_SprintTemplateConnection_SprintTemplate">
+            <End Role="SprintTemplate" EntitySet="SprintTemplate" />
+            <End Role="SprintTemplateConnection" EntitySet="SprintTemplateConnection" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TaskMasterTietokantaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -437,8 +460,8 @@
           <Property Name="ColorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ColorName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ColorValue" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Sprints" Relationship="Self.FK__Sprints__BackgCo__68487DD7" FromRole="Colors" ToRole="Sprints" />
-          <NavigationProperty Name="Sprints1" Relationship="Self.FK_Sprints_Process_color" FromRole="Colors" ToRole="Sprints" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7" FromRole="Colors" ToRole="Sprints" />
+          <NavigationProperty Name="Sprints1" Relationship="TaskMasterTietokantaModel.FK_Sprints_Process_color" FromRole="Colors" ToRole="Sprints" />
         </EntityType>
         <EntityType Name="GroupLink">
           <Key>
@@ -477,7 +500,7 @@
           <Property Name="SprintId" Type="Int32" />
           <Property Name="ProjectId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Projects" Relationship="Self.FK__ProjectCo__Proje__3D5E1FD2" FromRole="ProjectConnection" ToRole="Projects" />
-          <NavigationProperty Name="Sprints" Relationship="Self.FK__ProjectCo__Sprin__3C69FB99" FromRole="ProjectConnection" ToRole="Sprints" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99" FromRole="ProjectConnection" ToRole="Sprints" />
         </EntityType>
         <EntityType Name="Projects">
           <Key>
@@ -493,32 +516,14 @@
           <NavigationProperty Name="ProjectConnection" Relationship="Self.FK__ProjectCo__Proje__3D5E1FD2" FromRole="Projects" ToRole="ProjectConnection" />
           <NavigationProperty Name="Users" Relationship="Self.FK__Projects__AdminI__74AE54BC" FromRole="Projects" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Sprints">
-          <Key>
-            <PropertyRef Name="SprintId" />
-          </Key>
-          <Property Name="SprintId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SprintName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="TaskTemplateId" Type="Int32" />
-          <Property Name="AdminId" Type="Int32" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="BackgColor" Type="Int32" />
-          <Property Name="ProcessColor" Type="Int32" />
-          <NavigationProperty Name="Colors" Relationship="Self.FK__Sprints__BackgCo__68487DD7" FromRole="Sprints" ToRole="Colors" />
-          <NavigationProperty Name="Colors1" Relationship="Self.FK_Sprints_Process_color" FromRole="Sprints" ToRole="Colors" />
-          <NavigationProperty Name="ProjectConnection" Relationship="Self.FK__ProjectCo__Sprin__3C69FB99" FromRole="Sprints" ToRole="ProjectConnection" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__Sprints__AdminId__6754599E" FromRole="Sprints" ToRole="Users" />
-          <NavigationProperty Name="SprintTemplate" Relationship="Self.FK_Sprints_STemplate" FromRole="Sprints" ToRole="SprintTemplate" />
-        </EntityType>
         <EntityType Name="SprintTemplate">
           <Key>
             <PropertyRef Name="SprintTemplateId" />
           </Key>
           <Property Name="SprintTemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SprintTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Sprints" Relationship="Self.FK_Sprints_STemplate" FromRole="SprintTemplate" ToRole="Sprints" />
           <NavigationProperty Name="TemplateTaskConnection" Relationship="Self.FK__TemplateT__Sprin__6B24EA82" FromRole="SprintTemplate" ToRole="TemplateTaskConnection" />
+          <NavigationProperty Name="SprintTemplateConnection" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate" FromRole="SprintTemplate" ToRole="SprintTemplateConnection" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -592,33 +597,9 @@
           <Property Name="GivenName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Logins" Relationship="Self.FK__Logins__UserId__75A278F5" FromRole="Users" ToRole="Logins" />
           <NavigationProperty Name="Projects" Relationship="Self.FK__Projects__AdminI__74AE54BC" FromRole="Users" ToRole="Projects" />
-          <NavigationProperty Name="Sprints" Relationship="Self.FK__Sprints__AdminId__6754599E" FromRole="Users" ToRole="Sprints" />
           <NavigationProperty Name="UserGroupLink" Relationship="Self.FK__UserGroup__UserI__72C60C4A" FromRole="Users" ToRole="UserGroupLink" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" FromRole="Users" ToRole="Sprints" />
         </EntityType>
-        <Association Name="FK__Sprints__BackgCo__68487DD7">
-          <End Role="Colors" Type="Self.Colors" Multiplicity="0..1" />
-          <End Role="Sprints" Type="Self.Sprints" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Colors">
-              <PropertyRef Name="ColorId" />
-            </Principal>
-            <Dependent Role="Sprints">
-              <PropertyRef Name="BackgColor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Sprints_Process_color">
-          <End Role="Colors" Type="Self.Colors" Multiplicity="0..1" />
-          <End Role="Sprints" Type="Self.Sprints" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Colors">
-              <PropertyRef Name="ColorId" />
-            </Principal>
-            <Dependent Role="Sprints">
-              <PropertyRef Name="ProcessColor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__GroupLink__Group__778AC167">
           <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
           <End Role="GroupLink" Type="Self.GroupLink" Multiplicity="*" />
@@ -679,18 +660,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ProjectCo__Sprin__3C69FB99">
-          <End Role="Sprints" Type="Self.Sprints" Multiplicity="0..1" />
-          <End Role="ProjectConnection" Type="Self.ProjectConnection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sprints">
-              <PropertyRef Name="SprintId" />
-            </Principal>
-            <Dependent Role="ProjectConnection">
-              <PropertyRef Name="SprintId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Projects__AdminI__74AE54BC">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
@@ -700,30 +669,6 @@
             </Principal>
             <Dependent Role="Projects">
               <PropertyRef Name="AdminId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Sprints__AdminId__6754599E">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Sprints" Type="Self.Sprints" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Sprints">
-              <PropertyRef Name="AdminId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Sprints_STemplate">
-          <End Role="SprintTemplate" Type="Self.SprintTemplate" Multiplicity="0..1" />
-          <End Role="Sprints" Type="Self.Sprints" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SprintTemplate">
-              <PropertyRef Name="SprintTemplateId" />
-            </Principal>
-            <Dependent Role="Sprints">
-              <PropertyRef Name="TaskTemplateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -806,7 +751,6 @@
           <EntitySet Name="Logins" EntityType="Self.Logins" />
           <EntitySet Name="ProjectConnection" EntityType="Self.ProjectConnection" />
           <EntitySet Name="Projects" EntityType="Self.Projects" />
-          <EntitySet Name="Sprints" EntityType="Self.Sprints" />
           <EntitySet Name="SprintTemplate" EntityType="Self.SprintTemplate" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TaskPeople" EntityType="Self.TaskPeople" />
@@ -815,14 +759,6 @@
           <EntitySet Name="TemplateTaskConnection" EntityType="Self.TemplateTaskConnection" />
           <EntitySet Name="UserGroupLink" EntityType="Self.UserGroupLink" />
           <EntitySet Name="Users" EntityType="Self.Users" />
-          <AssociationSet Name="FK__Sprints__BackgCo__68487DD7" Association="Self.FK__Sprints__BackgCo__68487DD7">
-            <End Role="Colors" EntitySet="Colors" />
-            <End Role="Sprints" EntitySet="Sprints" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Sprints_Process_color" Association="Self.FK_Sprints_Process_color">
-            <End Role="Colors" EntitySet="Colors" />
-            <End Role="Sprints" EntitySet="Sprints" />
-          </AssociationSet>
           <AssociationSet Name="FK__GroupLink__Group__778AC167" Association="Self.FK__GroupLink__Group__778AC167">
             <End Role="Groups" EntitySet="Groups" />
             <End Role="GroupLink" EntitySet="GroupLink" />
@@ -843,21 +779,9 @@
             <End Role="Projects" EntitySet="Projects" />
             <End Role="ProjectConnection" EntitySet="ProjectConnection" />
           </AssociationSet>
-          <AssociationSet Name="FK__ProjectCo__Sprin__3C69FB99" Association="Self.FK__ProjectCo__Sprin__3C69FB99">
-            <End Role="Sprints" EntitySet="Sprints" />
-            <End Role="ProjectConnection" EntitySet="ProjectConnection" />
-          </AssociationSet>
           <AssociationSet Name="FK__Projects__AdminI__74AE54BC" Association="Self.FK__Projects__AdminI__74AE54BC">
             <End Role="Users" EntitySet="Users" />
             <End Role="Projects" EntitySet="Projects" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Sprints__AdminId__6754599E" Association="Self.FK__Sprints__AdminId__6754599E">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Sprints" EntitySet="Sprints" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Sprints_STemplate" Association="Self.FK_Sprints_STemplate">
-            <End Role="SprintTemplate" EntitySet="SprintTemplate" />
-            <End Role="Sprints" EntitySet="Sprints" />
           </AssociationSet>
           <AssociationSet Name="FK__TemplateT__Sprin__6B24EA82" Association="Self.FK__TemplateT__Sprin__6B24EA82">
             <End Role="SprintTemplate" EntitySet="SprintTemplate" />
@@ -883,7 +807,132 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserGroupLink" EntitySet="UserGroupLink" />
           </AssociationSet>
+          <EntitySet Name="SprintTemplateConnection" EntityType="TaskMasterTietokantaModel.SprintTemplateConnection" />
+          <AssociationSet Name="FK_SprintTemplateConnection_SprintTemplate" Association="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate">
+            <End Role="SprintTemplate" EntitySet="SprintTemplate" />
+            <End Role="SprintTemplateConnection" EntitySet="SprintTemplateConnection" />
+          </AssociationSet>
+          <EntitySet Name="Sprints" EntityType="TaskMasterTietokantaModel.Sprints" />
+          <AssociationSet Name="FK__Sprints__BackgCo__68487DD7" Association="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7">
+            <End Role="Colors" EntitySet="Colors" />
+            <End Role="Sprints" EntitySet="Sprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sprints_Process_color" Association="TaskMasterTietokantaModel.FK_Sprints_Process_color">
+            <End Role="Colors" EntitySet="Colors" />
+            <End Role="Sprints" EntitySet="Sprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectCo__Sprin__3C69FB99" Association="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99">
+            <End Role="Sprints" EntitySet="Sprints" />
+            <End Role="ProjectConnection" EntitySet="ProjectConnection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sprints__AdminId__6754599E" Association="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Sprints" EntitySet="Sprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SprintTemplateConnection_Sprints" Association="TaskMasterTietokantaModel.FK_SprintTemplateConnection_Sprints">
+            <End Role="Sprints" EntitySet="Sprints" />
+            <End Role="SprintTemplateConnection" EntitySet="SprintTemplateConnection" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="SprintTemplateConnection">
+          <Key>
+            <PropertyRef Name="TemplateConnectionId" />
+          </Key>
+          <Property Name="TemplateConnectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SprintId" Type="Int32" Nullable="false" />
+          <Property Name="SprintTemplateId" Type="Int32" />
+          <NavigationProperty Name="SprintTemplate" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate" FromRole="SprintTemplateConnection" ToRole="SprintTemplate" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_Sprints" FromRole="SprintTemplateConnection" ToRole="Sprints" />
+        </EntityType>
+        <Association Name="FK_SprintTemplateConnection_SprintTemplate">
+          <End Type="TaskMasterTietokantaModel.SprintTemplate" Role="SprintTemplate" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.SprintTemplateConnection" Role="SprintTemplateConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SprintTemplate">
+              <PropertyRef Name="SprintTemplateId" />
+            </Principal>
+            <Dependent Role="SprintTemplateConnection">
+              <PropertyRef Name="SprintTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Sprints">
+          <Key>
+            <PropertyRef Name="SprintId" />
+          </Key>
+          <Property Name="SprintId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SprintName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdminId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="BackgColor" Type="Int32" />
+          <Property Name="ProcessColor" Type="Int32" />
+          <NavigationProperty Name="Colors" Relationship="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7" FromRole="Sprints" ToRole="Colors" />
+          <NavigationProperty Name="Colors1" Relationship="TaskMasterTietokantaModel.FK_Sprints_Process_color" FromRole="Sprints" ToRole="Colors" />
+          <NavigationProperty Name="ProjectConnection" Relationship="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99" FromRole="Sprints" ToRole="ProjectConnection" />
+          <NavigationProperty Name="Users" Relationship="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" FromRole="Sprints" ToRole="Users" />
+          <NavigationProperty Name="SprintTemplateConnection" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_Sprints" FromRole="Sprints" ToRole="SprintTemplateConnection" />
+        </EntityType>
+        <Association Name="FK__Sprints__BackgCo__68487DD7">
+          <End Type="TaskMasterTietokantaModel.Colors" Role="Colors" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.Sprints" Role="Sprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colors">
+              <PropertyRef Name="ColorId" />
+            </Principal>
+            <Dependent Role="Sprints">
+              <PropertyRef Name="BackgColor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sprints_Process_color">
+          <End Type="TaskMasterTietokantaModel.Colors" Role="Colors" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.Sprints" Role="Sprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colors">
+              <PropertyRef Name="ColorId" />
+            </Principal>
+            <Dependent Role="Sprints">
+              <PropertyRef Name="ProcessColor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectCo__Sprin__3C69FB99">
+          <End Type="TaskMasterTietokantaModel.Sprints" Role="Sprints" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.ProjectConnection" Role="ProjectConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sprints">
+              <PropertyRef Name="SprintId" />
+            </Principal>
+            <Dependent Role="ProjectConnection">
+              <PropertyRef Name="SprintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sprints__AdminId__6754599E">
+          <End Type="TaskMasterTietokantaModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.Sprints" Role="Sprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Sprints">
+              <PropertyRef Name="AdminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SprintTemplateConnection_Sprints">
+          <End Type="TaskMasterTietokantaModel.Sprints" Role="Sprints" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.SprintTemplateConnection" Role="SprintTemplateConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sprints">
+              <PropertyRef Name="SprintId" />
+            </Principal>
+            <Dependent Role="SprintTemplateConnection">
+              <PropertyRef Name="SprintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -944,20 +993,6 @@
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="ProjectPicture" ColumnName="ProjectPicture" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Sprints">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Sprints">
-              <MappingFragment StoreEntitySet="Sprints">
-                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
-                <ScalarProperty Name="SprintName" ColumnName="SprintName" />
-                <ScalarProperty Name="TaskTemplateId" ColumnName="TaskTemplateId" />
-                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="BackgColor" ColumnName="BackgColor" />
-                <ScalarProperty Name="ProcessColor" ColumnName="ProcessColor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1033,6 +1068,28 @@
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="GivenName" ColumnName="GivenName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SprintTemplateConnection">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.SprintTemplateConnection">
+              <MappingFragment StoreEntitySet="SprintTemplateConnection">
+                <ScalarProperty Name="SprintTemplateId" ColumnName="SprintTemplateId" />
+                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
+                <ScalarProperty Name="TemplateConnectionId" ColumnName="TemplateConnectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sprints">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Sprints">
+              <MappingFragment StoreEntitySet="Sprints">
+                <ScalarProperty Name="ProcessColor" ColumnName="ProcessColor" />
+                <ScalarProperty Name="BackgColor" ColumnName="BackgColor" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="SprintName" ColumnName="SprintName" />
+                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

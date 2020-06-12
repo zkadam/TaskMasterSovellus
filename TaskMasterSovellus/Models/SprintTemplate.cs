@@ -17,16 +17,16 @@ namespace TaskMasterSovellus.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SprintTemplate()
         {
-            this.Sprints = new HashSet<Sprints>();
             this.TemplateTaskConnection = new HashSet<TemplateTaskConnection>();
+            this.SprintTemplateConnection = new HashSet<SprintTemplateConnection>();
         }
     
         public int SprintTemplateId { get; set; }
         public string SprintTemplateName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Sprints> Sprints { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TemplateTaskConnection> TemplateTaskConnection { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SprintTemplateConnection> SprintTemplateConnection { get; set; }
     }
 }

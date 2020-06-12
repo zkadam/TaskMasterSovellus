@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.Logins" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.ProjectConnection" Width="1.5" PointX="6" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.Projects" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Sprints" Width="1.5" PointX="8" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.SprintTemplate" Width="1.5" PointX="5.75" PointY="15.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.TaskPeople" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
@@ -20,23 +19,26 @@
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.TemplateTaskConnection" Width="1.5" PointX="8" PointY="14.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.UserGroupLink" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.Users" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Sprints_Process_color" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__GroupLink__Group__778AC167" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__GroupLink__Proje__73BA3083" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__UserGroup__Group__71D1E811" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__Logins__UserId__75A278F5" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__ProjectCo__Proje__3D5E1FD2" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__Projects__AdminI__74AE54BC" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Sprints_STemplate" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TemplateT__Sprin__6B24EA82" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TaskPeopl__TaskI__76969D2E" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TaskPeopl__UserG__70DDC3D8" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__Tasks__StateId__6D0D32F4" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TemplateT__State__6C190EBB" ManuallyRouted="false" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__UserGroup__UserI__72C60C4A" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.SprintTemplateConnection" Width="1.5" PointX="10.25" PointY="11.25" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Sprints" Width="1.5" PointX="8" PointY="9.5" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Sprints_Process_color" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK_SprintTemplateConnection_Sprints" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

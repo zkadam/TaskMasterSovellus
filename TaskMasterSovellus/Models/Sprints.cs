@@ -18,11 +18,11 @@ namespace TaskMasterSovellus.Models
         public Sprints()
         {
             this.ProjectConnection = new HashSet<ProjectConnection>();
+            this.SprintTemplateConnection = new HashSet<SprintTemplateConnection>();
         }
     
         public int SprintId { get; set; }
         public string SprintName { get; set; }
-        public Nullable<int> TaskTemplateId { get; set; }
         public Nullable<int> AdminId { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
@@ -34,6 +34,7 @@ namespace TaskMasterSovellus.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectConnection> ProjectConnection { get; set; }
         public virtual Users Users { get; set; }
-        public virtual SprintTemplate SprintTemplate { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SprintTemplateConnection> SprintTemplateConnection { get; set; }
     }
 }
