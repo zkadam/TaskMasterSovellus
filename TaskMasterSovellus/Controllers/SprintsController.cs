@@ -10,107 +10,120 @@ using TaskMasterSovellus.Models;
 
 namespace TaskMasterSovellus.Controllers
 {
-    public class SprintTemplatesController : Controller
+    public class SprintsController : Controller
     {
         private TaskMasterTietokantaEntities db = new TaskMasterTietokantaEntities();
 
-        // GET: SprintTemplates
+        // GET: Sprints
         public ActionResult Index()
         {
-            return View(db.SprintTemplate.ToList());
+            var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users);
+            return View(sprints.ToList());
         }
 
-        // GET: SprintTemplates/Details/5
+        // GET: Sprints/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SprintTemplate sprintTemplate = db.SprintTemplate.Find(id);
-            if (sprintTemplate == null)
+            Sprints sprints = db.Sprints.Find(id);
+            if (sprints == null)
             {
                 return HttpNotFound();
             }
-            return View(sprintTemplate);
+            return View(sprints);
         }
 
-        // GET: SprintTemplates/Create
+        // GET: Sprints/Create
         public ActionResult Create()
         {
+            ViewBag.BackgColor = new SelectList(db.Colors, "ColorId", "ColorName");
+            ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName");
+            ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname");
             return View();
         }
 
-        // POST: SprintTemplates/Create
+        // POST: Sprints/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SprintTemplateId,SprintTemplateName")] SprintTemplate sprintTemplate)
+        public ActionResult Create([Bind(Include = "SprintId,SprintName,AdminId,StartDate,EndDate,BackgColor,ProcessColor")] Sprints sprints)
         {
             if (ModelState.IsValid)
             {
-                db.SprintTemplate.Add(sprintTemplate);
+                db.Sprints.Add(sprints);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(sprintTemplate);
+            ViewBag.BackgColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.BackgColor);
+            ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.ProcessColor);
+            ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", sprints.AdminId);
+            return View(sprints);
         }
 
-        // GET: SprintTemplates/Edit/5
+        // GET: Sprints/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SprintTemplate sprintTemplate = db.SprintTemplate.Find(id);
-            if (sprintTemplate == null)
+            Sprints sprints = db.Sprints.Find(id);
+            if (sprints == null)
             {
                 return HttpNotFound();
             }
-            return View(sprintTemplate);
+            ViewBag.BackgColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.BackgColor);
+            ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.ProcessColor);
+            ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", sprints.AdminId);
+            return View(sprints);
         }
 
-        // POST: SprintTemplates/Edit/5
+        // POST: Sprints/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SprintTemplateId,SprintTemplateName")] SprintTemplate sprintTemplate)
+        public ActionResult Edit([Bind(Include = "SprintId,SprintName,AdminId,StartDate,EndDate,BackgColor,ProcessColor")] Sprints sprints)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(sprintTemplate).State = EntityState.Modified;
+                db.Entry(sprints).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(sprintTemplate);
+            ViewBag.BackgColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.BackgColor);
+            ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.ProcessColor);
+            ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", sprints.AdminId);
+            return View(sprints);
         }
 
-        // GET: SprintTemplates/Delete/5
+        // GET: Sprints/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SprintTemplate sprintTemplate = db.SprintTemplate.Find(id);
-            if (sprintTemplate == null)
+            Sprints sprints = db.Sprints.Find(id);
+            if (sprints == null)
             {
                 return HttpNotFound();
             }
-            return View(sprintTemplate);
+            return View(sprints);
         }
 
-        // POST: SprintTemplates/Delete/5
+        // POST: Sprints/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SprintTemplate sprintTemplate = db.SprintTemplate.Find(id);
-            db.SprintTemplate.Remove(sprintTemplate);
+            Sprints sprints = db.Sprints.Find(id);
+            db.Sprints.Remove(sprints);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

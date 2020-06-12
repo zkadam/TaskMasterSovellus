@@ -134,10 +134,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectConnectionsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\SprintsController.cs" />
     <Compile Include="Controllers\SprintTaskListController.cs" />
-    <Compile Include="Controllers\SprintTemplatesController.cs" />
-    <Compile Include="Controllers\TasksController.cs" />
-    <Compile Include="Controllers\TemplateTaskConnectionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -382,22 +380,17 @@
     <Content Include="Views\SprintTemplates\Details.cshtml" />
     <Content Include="Views\SprintTemplates\Edit.cshtml" />
     <Content Include="Views\SprintTemplates\Index.cshtml" />
-    <Content Include="Views\TemplateTaskConnections\Create.cshtml" />
-    <Content Include="Views\TemplateTaskConnections\Delete.cshtml" />
-    <Content Include="Views\TemplateTaskConnections\Details.cshtml" />
-    <Content Include="Views\TemplateTaskConnections\Edit.cshtml" />
-    <Content Include="Views\TemplateTaskConnections\Index.cshtml" />
-    <Content Include="Views\Tasks\Create.cshtml" />
-    <Content Include="Views\Tasks\Delete.cshtml" />
-    <Content Include="Views\Tasks\Details.cshtml" />
-    <Content Include="Views\Tasks\Edit.cshtml" />
-    <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Colors\Create.cshtml" />
     <Content Include="Views\Colors\Delete.cshtml" />
     <Content Include="Views\Colors\Details.cshtml" />
     <Content Include="Views\Colors\Edit.cshtml" />
     <Content Include="Views\Colors\Index.cshtml" />
     <Content Include="Views\SprintTaskList\SprintTasksList.cshtml" />
+    <Content Include="Views\Sprints\Create.cshtml" />
+    <Content Include="Views\Sprints\Delete.cshtml" />
+    <Content Include="Views\Sprints\Details.cshtml" />
+    <Content Include="Views\Sprints\Edit.cshtml" />
+    <Content Include="Views\Sprints\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
