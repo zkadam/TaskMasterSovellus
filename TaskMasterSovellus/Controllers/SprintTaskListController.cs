@@ -26,10 +26,12 @@ namespace TaskMasterSovellus.Controllers
                         join tst in db.TaskState on tas.StateId equals tst.StateId /*into tas_tst*/
                         join ttc in db.TemplateTaskConnection on tst.StateId equals ttc.StateId /*into tas_ttc*/
                         join stl in db.SprintTemplate on ttc.SprintTemplateId equals stl.SprintTemplateId
-                        join sp in db.Sprints on stl.SprintTemplateId equals sp.TaskTemplateId
+                        join stc in db.SprintTemplateConnection on stl.SprintTemplateId equals stc.SprintTemplateId
+                        join sp in db.Sprints on stc.SprintId equals sp.SprintId
+
                         join cl in db.Colors on sp.BackgColor equals cl.ColorId
                         join cl2 in db.Colors on sp.ProcessColor equals cl2.ColorId
-
+                        
                         select new SprintClassList
                         {
                             TaskId=tas.TaskId,
