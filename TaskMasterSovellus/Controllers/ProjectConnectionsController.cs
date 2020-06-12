@@ -55,8 +55,8 @@ namespace TaskMasterSovellus.Controllers
             {
                 db.ProjectConnection.Add(projectConnection);
                 db.SaveChanges();
-                return RedirectToAction("SprintsOfPrjekt", "SprintTaskList",);
-                @Html.ActionLink("Back to List", "SprintsOfPrjekt", "SprintTaskList", new { id = Model.ProjectId }, null)
+                return RedirectToAction("SprintsOfPrjekt", "SprintTaskList", new {id=projectConnection.ProjectId});
+                
             }
 
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", projectConnection.ProjectId);
@@ -92,7 +92,7 @@ namespace TaskMasterSovellus.Controllers
             {
                 db.Entry(projectConnection).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("SprintsOfPrjekt", "SprintTaskList", new { id = projectConnection.ProjectId });
             }
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", projectConnection.ProjectId);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", projectConnection.SprintId);
@@ -122,7 +122,7 @@ namespace TaskMasterSovellus.Controllers
             ProjectConnection projectConnection = db.ProjectConnection.Find(id);
             db.ProjectConnection.Remove(projectConnection);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("SprintsOfPrjekt", "SprintTaskList", new { id = projectConnection.ProjectId });
         }
 
         protected override void Dispose(bool disposing)
