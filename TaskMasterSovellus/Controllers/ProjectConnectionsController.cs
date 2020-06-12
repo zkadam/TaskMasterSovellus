@@ -55,7 +55,8 @@ namespace TaskMasterSovellus.Controllers
             {
                 db.ProjectConnection.Add(projectConnection);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("SprintsOfPrjekt", "SprintTaskList",);
+                @Html.ActionLink("Back to List", "SprintsOfPrjekt", "SprintTaskList", new { id = Model.ProjectId }, null)
             }
 
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", projectConnection.ProjectId);

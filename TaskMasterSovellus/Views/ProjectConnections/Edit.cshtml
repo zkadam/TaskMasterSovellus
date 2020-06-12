@@ -42,7 +42,8 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "SprintsOfPrjekt", "SprintTaskList", new { id = Model.ProjectId }, null) 
+   
 </div>
 
 @section Scripts {

@@ -4,7 +4,7 @@
     ViewBag.Title = "SprintsOfPrjekt";
 }
 
-<h2>SprintsOfPrjekt</h2>
+<h2>Sprints Of Project</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -29,9 +29,11 @@
             @Html.DisplayFor(modelItem => item.Sprints.SprintName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProjectConnectionId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProjectConnectionId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProjectConnectionId })
+
+            @Html.ActionLink("Edit", "Edit", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |  
+            @Html.ActionLink("Delete", "Delete", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |
+      
+
         </td>
     </tr>
 }
