@@ -16,8 +16,23 @@ namespace TaskMasterSovellus.Controllers
         
             private TaskMasterTietokantaEntities db = new TaskMasterTietokantaEntities();
 
-            // GET: Sprints
-            public ActionResult SprintTasksList(int id)
+
+
+
+        //Projekt connection lisk ottaa projektin idn ja näyttää kaikki siihen kuuluvia sprinttejä
+        public ActionResult SprintsOfPrjekt(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var projectConnection = db.ProjectConnection.Include(p => p.Projects).Include(p => p.Sprints).Where(p=>p.ProjectId==id);
+
+            return View(projectConnection.ToList());
+        }
+
+        // action result palauttaa kaikki sprintiin kuuluvia taskeja
+        public ActionResult SprintTasksList(int id)
             {
             //var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users).Include(s => s.SprintTemplate.TemplateTaskConnection.Select(t => t.TaskState.Tasks));
             //    return View(sprints.ToList());

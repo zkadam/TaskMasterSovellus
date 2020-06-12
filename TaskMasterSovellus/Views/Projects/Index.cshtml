@@ -14,7 +14,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ProjectName)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.StartDate)
         </th>
         <th>
@@ -22,9 +22,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProjectPicture)
-        </th>
+        </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.Users.Surname)
+           Admin name
         </th>
         <th></th>
     </tr>
@@ -34,23 +34,25 @@
         <td>
             @Html.DisplayFor(modelItem => item.ProjectName)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.StartDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
+        </td>*@
+        @*<td>
             @Html.DisplayFor(modelItem => item.ProjectPicture)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Users.Surname)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProjectId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProjectId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProjectId })
-        </td>
+        </td>*@
+    <td>
+        @Html.DisplayFor(modelItem => item.Users.GivenName) 
+        @Html.DisplayFor(modelItem => item.Users.Surname)
+    </td>
+    <td>
+        @Html.ActionLink("View sprints of project", "SprintsOfPrjekt", "SprintTaskList", new { id = item.ProjectId }, null) |
+        @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.ProjectId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.ProjectId })
+    </td>
     </tr>
 }
 

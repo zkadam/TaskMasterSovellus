@@ -23,10 +23,17 @@ textarea {
     max-width: 280px;
 }
 
-.sprintTable {
+/*.sprintTable {
     background-color: #181f4f;
     color: white !important;
     
+}*/
+
+
+
+table {
+    background-color: #181f4f;
+    color: white !important;
 }
 
 a {
@@ -35,6 +42,11 @@ a {
 
 /*actionlinkien väri muuttuu tauluissa contrastin takia ZA
 */
-table a {
+/*table a {
     color: #bff9ff
 }
+
+p a{
+
+
+}*/

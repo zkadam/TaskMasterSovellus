@@ -410,6 +410,7 @@
     <Content Include="Views\TaskStates\Details.cshtml" />
     <Content Include="Views\TaskStates\Edit.cshtml" />
     <Content Include="Views\TaskStates\Index.cshtml" />
+    <Content Include="Views\SprintTaskList\SprintsOfPrjekt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
