@@ -136,6 +136,10 @@
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SprintsController.cs" />
     <Compile Include="Controllers\SprintTaskListController.cs" />
+    <Compile Include="Controllers\SprintTemplateConnectionsController.cs" />
+    <Compile Include="Controllers\SprintTemplatesController.cs" />
+    <Compile Include="Controllers\TaskStatesController.cs" />
+    <Compile Include="Controllers\TemplateTaskConnectionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -391,6 +395,21 @@
     <Content Include="Views\Sprints\Details.cshtml" />
     <Content Include="Views\Sprints\Edit.cshtml" />
     <Content Include="Views\Sprints\Index.cshtml" />
+    <Content Include="Views\SprintTemplateConnections\Create.cshtml" />
+    <Content Include="Views\SprintTemplateConnections\Delete.cshtml" />
+    <Content Include="Views\SprintTemplateConnections\Details.cshtml" />
+    <Content Include="Views\SprintTemplateConnections\Edit.cshtml" />
+    <Content Include="Views\SprintTemplateConnections\Index.cshtml" />
+    <Content Include="Views\TemplateTaskConnections\Create.cshtml" />
+    <Content Include="Views\TemplateTaskConnections\Delete.cshtml" />
+    <Content Include="Views\TemplateTaskConnections\Details.cshtml" />
+    <Content Include="Views\TemplateTaskConnections\Edit.cshtml" />
+    <Content Include="Views\TemplateTaskConnections\Index.cshtml" />
+    <Content Include="Views\TaskStates\Create.cshtml" />
+    <Content Include="Views\TaskStates\Delete.cshtml" />
+    <Content Include="Views\TaskStates\Details.cshtml" />
+    <Content Include="Views\TaskStates\Edit.cshtml" />
+    <Content Include="Views\TaskStates\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

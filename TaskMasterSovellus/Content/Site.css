@@ -25,5 +25,16 @@ textarea {
 
 .sprintTable {
     background-color: #181f4f;
-    color: white;
+    color: white !important;
+    
+}
+
+a {
+    color: #0b4d31
+}
+
+/*actionlinkien väri muuttuu tauluissa contrastin takia ZA
+*/
+table a {
+    color: #bff9ff
 }
