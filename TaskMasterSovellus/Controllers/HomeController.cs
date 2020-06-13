@@ -10,9 +10,8 @@ namespace TaskMasterSovellus.Controllers
     public class HomeController : Controller
     {
         //----------------------------------actionName ja controllerNamein pitää tulla edellisessä controllerista
-        public ActionResult Login(string actionName, string controllerName)
+        public ActionResult Login()
         {
-
             return View();
         }
         [HttpPost]

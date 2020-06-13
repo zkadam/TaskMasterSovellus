@@ -411,6 +411,9 @@
     <Content Include="Views\TaskStates\Edit.cshtml" />
     <Content Include="Views\TaskStates\Index.cshtml" />
     <Content Include="Views\SprintTaskList\SprintsOfPrjekt.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\_Login.cshtml" />
+    <Content Include="Views\Shared\_Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

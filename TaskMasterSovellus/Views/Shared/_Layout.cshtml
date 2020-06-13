@@ -17,60 +17,47 @@
 
     @*sript joka lisää actionlinkkeihin button classin contrastin  ja element erottamisen takia----ZK*@
     <script>
-            $(document).ready(function(){
-                              
-               //back to list buttonit
-                $("a:contains('Create')").addClass("btn btn-primary");
+        $(document).ready(function () {
 
-                $("a:contains('Back')").addClass("btn btn-primary");
-               //taulukkoon buttonit
-                $("td>a").addClass("btn btn-outline-info");
-                //submit formien buttonit
-               $(":submit").removeClass("btn-default");
-                $(":submit").addClass("btn-primary");
-                
-              });
+            //back to list buttonit
+            $("a:contains('Create')").addClass("btn btn-primary");
+
+            $("a:contains('Back')").addClass("btn btn-primary");
+            //taulukkoon buttonit
+            $("td>a").addClass("btn btn-outline-info");
+            //submit formien buttonit
+            $(":submit").removeClass("btn-default");
+            $(":submit").addClass("btn-primary");
+
+        });
     </script>
 
 
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00688B">
+            <a class="navbar-brand" href="~/Home/Index">Task Master v1.0</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <li class="collapse navbar-collapse" id="navbarColor03">
+                <ul class="navbar-nav mr-auto">
 
 
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00688B">
-        <a class="navbar-brand" href="#">Task Master v1.0</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <li class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Projects/Index">Projects</a>
-                </li>
+                    @*------------------------------------------LOGIN-------------------------------------*@
 
 
-                @*------------------------------------------charts--------------------------------------*@
+                    @if (Session["UserName"] != null)
+                    {
 
-
-                @*----------------------------------------------HOMAA: PITÄÄ OLLA KIRJOITETTUNA SISÄÄN NÄKEMÄÄN NAVBAARIN TÄYSI SISÄLLÖN------------------------------------------------*@
-                @*------------------------------------------tuotteet--------------------------------------*@
-
-
-
-                @*------------------------------------------LOGIN-------------------------------------*@
-                @*<li class="nav-item">
-
-
-                        @if (Session["UserName"] != null)
-                        {
-
+                        <li class="nav-item">
                             <a class="nav-link" style="color:deepskyblue;"> Welcome, @Session["UserName"] !</a>
-                        }
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Projects/Index">Projects</a>
+                        </li>
 
-
-
-                    </li>
+                    }
                     <li class="nav-item">
-
 
                         @if (Session["UserName"] == null)
                         {
@@ -81,33 +68,31 @@
                         {
                             <a class="nav-link" style="color:chartreuse" href="~/home/Logout">Logout</a>
                         }
-
-
-                    </li>*@
-            </ul>
-
-
-
-          
-        </li>
-    </nav>
+                    </li>
+                </ul>
 
 
 
 
-    <div class="container-fluid body-content">
-        @RenderBody()
+
+            </li>
+        </nav>
 
 
-    </div>
 
-    <div style="clear:both">
-        <footer>
-            &copy; @DateTime.Now.Year - My ASP.NET Application
-        </footer>
-    </div>
+        <div class="container-fluid body-content">
+            @RenderBody()
 
 
-    @RenderSection("scripts", required: false)
-</body>
+        </div>
+
+        <div style="clear:both">
+            <footer>
+                &copy; @DateTime.Now.Year - My ASP.NET Application
+            </footer>
+        </div>
+
+
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

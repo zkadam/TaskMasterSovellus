@@ -15,44 +15,45 @@
             @Html.DisplayNameFor(model => model.ProjectName)
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectPicture)
+            </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProjectPicture)
-        </th>*@
-        <th>
-           Admin name
+            Admin name
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProjectName)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>*@
-        @*<td>
-            @Html.DisplayFor(modelItem => item.ProjectPicture)
-        </td>*@
-    <td>
-        @Html.DisplayFor(modelItem => item.Users.GivenName) 
-        @Html.DisplayFor(modelItem => item.Users.Surname)
-    </td>
-    <td>
-        @Html.ActionLink("View sprints of project", "SprintsOfPrjekt", "SprintTaskList", new { id = item.ProjectId }, null) |
-        @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.ProjectId })
-    </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectName)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>*@
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.ProjectPicture)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Users.GivenName)
+                @Html.DisplayFor(modelItem => item.Users.Surname)
+            </td>
+            <td>
+                @Html.ActionLink("View sprints of project", "SprintsOfPrjekt", "SprintTaskList", new { id = item.ProjectId }, null) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProjectId })
+            </td>
+        </tr>
+    }
 
 </table>

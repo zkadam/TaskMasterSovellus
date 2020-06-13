@@ -2,6 +2,30 @@
     ViewBag.Title = "Home Page";
 }
 
+@*SCRIPT LATAA PARTIALVIEWIN LOGININ VARTEN JOS EI OLE KIRJAUTUNUT SISÄÄN*@
+
+@if (Session["UserName"] == null)
+{
+    
+    Html.RenderPartial("_Login");
+
+    @section scripts {
+        <script type="text/javascript">
+               $(window).on('load', function () {
+                   console.log('we are in first phase');
+                   if (@ViewBag.LoginError == 1 || !@ViewBag.LoginError) {
+            $('#LoginRuutu').modal('show');
+            console.log('we are in second phase');
+        }
+        });
+
+        </script>
+
+    }
+
+
+}
+
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>

@@ -17,30 +17,39 @@ namespace TaskMasterSovellus.Controllers
         // GET: Projects
         public ActionResult Index()
         {
+            if (Session["UserName"] == null)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+            }
+            else
+            {
+
             var projects = db.Projects.Include(p => p.Users);
             return View(projects.ToList());
+
+            }
         }
 
-        // GET: Projects/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Projects projects = db.Projects.Find(id);
-            if (projects == null)
-            {
-                return HttpNotFound();
-            }
-            return View(projects);
-        }
+        
 
         // GET: Projects/Create
         public ActionResult Create()
         {
+            if (Session["UserName"] == null)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+            }
+            else
+            {
+
             ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname");
             return View();
+
+            }
         }
 
         // POST: Projects/Create
@@ -50,6 +59,16 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectId,ProjectName,AdminId,StartDate,EndDate,ProjectPicture")] Projects projects)
         {
+            if (Session["UserName"] == null)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+            }
+            else
+            {
+
+
             if (ModelState.IsValid)
             {
                 db.Projects.Add(projects);
@@ -59,11 +78,21 @@ namespace TaskMasterSovellus.Controllers
 
             ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", projects.AdminId);
             return View(projects);
+            }
         }
 
         // GET: Projects/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["UserName"] == null)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+            }
+            else
+            {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -76,6 +105,8 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", projects.AdminId);
             return View(projects);
         }
+
+            }
 
         // POST: Projects/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -84,6 +115,15 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProjectId,ProjectName,AdminId,StartDate,EndDate,ProjectPicture")] Projects projects)
         {
+            if (Session["UserName"] == null)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+            }
+            else
+            {
+
             if (ModelState.IsValid)
             {
                 db.Entry(projects).State = EntityState.Modified;
@@ -92,11 +132,22 @@ namespace TaskMasterSovellus.Controllers
             }
             ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", projects.AdminId);
             return View(projects);
+
+            }
         }
 
         // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (Session["UserName"] == null)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+            }
+            else
+            {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -107,6 +158,8 @@ namespace TaskMasterSovellus.Controllers
                 return HttpNotFound();
             }
             return View(projects);
+
+            }
         }
 
         // POST: Projects/Delete/5
