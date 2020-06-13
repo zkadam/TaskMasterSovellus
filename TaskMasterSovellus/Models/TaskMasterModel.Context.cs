@@ -34,8 +34,6 @@ namespace TaskMasterSovellus.Models
         public virtual DbSet<SprintTemplate> SprintTemplate { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TaskPeople> TaskPeople { get; set; }
-        public virtual DbSet<Tasks> Tasks { get; set; }
-        public virtual DbSet<TaskState> TaskState { get; set; }
         public virtual DbSet<TemplateTaskConnection> TemplateTaskConnection { get; set; }
         public virtual DbSet<UserGroupLink> UserGroupLink { get; set; }
         public virtual DbSet<Users> Users { get; set; }

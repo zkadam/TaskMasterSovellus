@@ -101,24 +101,6 @@
           <Property Name="TaskId" Type="int" Nullable="false" />
           <Property Name="UserGroupLinkId" Type="int" />
         </EntityType>
-        <EntityType Name="Tasks">
-          <Key>
-            <PropertyRef Name="TaskId" />
-          </Key>
-          <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="StateId" Type="int" Nullable="false" />
-          <Property Name="TaskName" Type="nvarchar" MaxLength="30" Nullable="false" />
-          <Property Name="TaskDescription" Type="nvarchar" MaxLength="200" />
-          <Property Name="TaskPoints" Type="int" />
-          <Property Name="TaskPriority" Type="int" />
-        </EntityType>
-        <EntityType Name="TaskState">
-          <Key>
-            <PropertyRef Name="StateId" />
-          </Key>
-          <Property Name="StateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="StateName" Type="nvarchar" MaxLength="20" Nullable="false" />
-        </EntityType>
         <EntityType Name="TemplateTaskConnection">
           <Key>
             <PropertyRef Name="TemplateConnectionId" />
@@ -239,18 +221,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TaskPeopl__TaskI__76969D2E">
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
-          <End Role="TaskPeople" Type="Self.TaskPeople" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tasks">
-              <PropertyRef Name="TaskId" />
-            </Principal>
-            <Dependent Role="TaskPeople">
-              <PropertyRef Name="TaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TaskPeopl__UserG__70DDC3D8">
           <End Role="UserGroupLink" Type="Self.UserGroupLink" Multiplicity="0..1" />
           <End Role="TaskPeople" Type="Self.TaskPeople" Multiplicity="*" />
@@ -263,18 +233,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tasks__StateId__6D0D32F4">
-          <End Role="TaskState" Type="Self.TaskState" Multiplicity="1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskState">
-              <PropertyRef Name="StateId" />
-            </Principal>
-            <Dependent Role="Tasks">
-              <PropertyRef Name="StateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TemplateT__Sprin__6B24EA82">
           <End Role="SprintTemplate" Type="Self.SprintTemplate" Multiplicity="1" />
           <End Role="TemplateTaskConnection" Type="Self.TemplateTaskConnection" Multiplicity="*" />
@@ -284,18 +242,6 @@
             </Principal>
             <Dependent Role="TemplateTaskConnection">
               <PropertyRef Name="SprintTemplateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TemplateT__State__6C190EBB">
-          <End Role="TaskState" Type="Self.TaskState" Multiplicity="0..1" />
-          <End Role="TemplateTaskConnection" Type="Self.TemplateTaskConnection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskState">
-              <PropertyRef Name="StateId" />
-            </Principal>
-            <Dependent Role="TemplateTaskConnection">
-              <PropertyRef Name="StateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -371,8 +317,6 @@
           <EntitySet Name="SprintTemplateConnection" EntityType="Self.SprintTemplateConnection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskPeople" EntityType="Self.TaskPeople" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TaskState" EntityType="Self.TaskState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateTaskConnection" EntityType="Self.TemplateTaskConnection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGroupLink" EntityType="Self.UserGroupLink" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -408,24 +352,12 @@
             <End Role="Colors" EntitySet="Colors" />
             <End Role="Sprints" EntitySet="Sprints" />
           </AssociationSet>
-          <AssociationSet Name="FK__TaskPeopl__TaskI__76969D2E" Association="Self.FK__TaskPeopl__TaskI__76969D2E">
-            <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="TaskPeople" EntitySet="TaskPeople" />
-          </AssociationSet>
           <AssociationSet Name="FK__TaskPeopl__UserG__70DDC3D8" Association="Self.FK__TaskPeopl__UserG__70DDC3D8">
             <End Role="UserGroupLink" EntitySet="UserGroupLink" />
             <End Role="TaskPeople" EntitySet="TaskPeople" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tasks__StateId__6D0D32F4" Association="Self.FK__Tasks__StateId__6D0D32F4">
-            <End Role="TaskState" EntitySet="TaskState" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
           <AssociationSet Name="FK__TemplateT__Sprin__6B24EA82" Association="Self.FK__TemplateT__Sprin__6B24EA82">
             <End Role="SprintTemplate" EntitySet="SprintTemplate" />
-            <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TemplateT__State__6C190EBB" Association="Self.FK__TemplateT__State__6C190EBB">
-            <End Role="TaskState" EntitySet="TaskState" />
             <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
           </AssociationSet>
           <AssociationSet Name="FK__UserGroup__Group__71D1E811" Association="Self.FK__UserGroup__Group__71D1E811">
@@ -542,30 +474,7 @@
           <Property Name="TaskPeopleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TaskId" Type="Int32" Nullable="false" />
           <Property Name="UserGroupLinkId" Type="Int32" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK__TaskPeopl__TaskI__76969D2E" FromRole="TaskPeople" ToRole="Tasks" />
           <NavigationProperty Name="UserGroupLink" Relationship="Self.FK__TaskPeopl__UserG__70DDC3D8" FromRole="TaskPeople" ToRole="UserGroupLink" />
-        </EntityType>
-        <EntityType Name="Tasks">
-          <Key>
-            <PropertyRef Name="TaskId" />
-          </Key>
-          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StateId" Type="Int32" Nullable="false" />
-          <Property Name="TaskName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="TaskDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="TaskPoints" Type="Int32" />
-          <Property Name="TaskPriority" Type="Int32" />
-          <NavigationProperty Name="TaskPeople" Relationship="Self.FK__TaskPeopl__TaskI__76969D2E" FromRole="Tasks" ToRole="TaskPeople" />
-          <NavigationProperty Name="TaskState" Relationship="Self.FK__Tasks__StateId__6D0D32F4" FromRole="Tasks" ToRole="TaskState" />
-        </EntityType>
-        <EntityType Name="TaskState">
-          <Key>
-            <PropertyRef Name="StateId" />
-          </Key>
-          <Property Name="StateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StateName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK__Tasks__StateId__6D0D32F4" FromRole="TaskState" ToRole="Tasks" />
-          <NavigationProperty Name="TemplateTaskConnection" Relationship="Self.FK__TemplateT__State__6C190EBB" FromRole="TaskState" ToRole="TemplateTaskConnection" />
         </EntityType>
         <EntityType Name="TemplateTaskConnection">
           <Key>
@@ -575,7 +484,6 @@
           <Property Name="SprintTemplateId" Type="Int32" Nullable="false" />
           <Property Name="StateId" Type="Int32" />
           <NavigationProperty Name="SprintTemplate" Relationship="Self.FK__TemplateT__Sprin__6B24EA82" FromRole="TemplateTaskConnection" ToRole="SprintTemplate" />
-          <NavigationProperty Name="TaskState" Relationship="Self.FK__TemplateT__State__6C190EBB" FromRole="TemplateTaskConnection" ToRole="TaskState" />
         </EntityType>
         <EntityType Name="UserGroupLink">
           <Key>
@@ -684,18 +592,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TaskPeopl__TaskI__76969D2E">
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
-          <End Role="TaskPeople" Type="Self.TaskPeople" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tasks">
-              <PropertyRef Name="TaskId" />
-            </Principal>
-            <Dependent Role="TaskPeople">
-              <PropertyRef Name="TaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TaskPeopl__UserG__70DDC3D8">
           <End Role="UserGroupLink" Type="Self.UserGroupLink" Multiplicity="0..1" />
           <End Role="TaskPeople" Type="Self.TaskPeople" Multiplicity="*" />
@@ -705,30 +601,6 @@
             </Principal>
             <Dependent Role="TaskPeople">
               <PropertyRef Name="UserGroupLinkId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Tasks__StateId__6D0D32F4">
-          <End Role="TaskState" Type="Self.TaskState" Multiplicity="1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskState">
-              <PropertyRef Name="StateId" />
-            </Principal>
-            <Dependent Role="Tasks">
-              <PropertyRef Name="StateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TemplateT__State__6C190EBB">
-          <End Role="TaskState" Type="Self.TaskState" Multiplicity="0..1" />
-          <End Role="TemplateTaskConnection" Type="Self.TemplateTaskConnection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskState">
-              <PropertyRef Name="StateId" />
-            </Principal>
-            <Dependent Role="TemplateTaskConnection">
-              <PropertyRef Name="StateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -754,8 +626,6 @@
           <EntitySet Name="SprintTemplate" EntityType="Self.SprintTemplate" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TaskPeople" EntityType="Self.TaskPeople" />
-          <EntitySet Name="Tasks" EntityType="Self.Tasks" />
-          <EntitySet Name="TaskState" EntityType="Self.TaskState" />
           <EntitySet Name="TemplateTaskConnection" EntityType="Self.TemplateTaskConnection" />
           <EntitySet Name="UserGroupLink" EntityType="Self.UserGroupLink" />
           <EntitySet Name="Users" EntityType="Self.Users" />
@@ -787,21 +657,9 @@
             <End Role="SprintTemplate" EntitySet="SprintTemplate" />
             <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
           </AssociationSet>
-          <AssociationSet Name="FK__TaskPeopl__TaskI__76969D2E" Association="Self.FK__TaskPeopl__TaskI__76969D2E">
-            <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="TaskPeople" EntitySet="TaskPeople" />
-          </AssociationSet>
           <AssociationSet Name="FK__TaskPeopl__UserG__70DDC3D8" Association="Self.FK__TaskPeopl__UserG__70DDC3D8">
             <End Role="UserGroupLink" EntitySet="UserGroupLink" />
             <End Role="TaskPeople" EntitySet="TaskPeople" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Tasks__StateId__6D0D32F4" Association="Self.FK__Tasks__StateId__6D0D32F4">
-            <End Role="TaskState" EntitySet="TaskState" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TemplateT__State__6C190EBB" Association="Self.FK__TemplateT__State__6C190EBB">
-            <End Role="TaskState" EntitySet="TaskState" />
-            <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
           </AssociationSet>
           <AssociationSet Name="FK__UserGroup__UserI__72C60C4A" Association="Self.FK__UserGroup__UserI__72C60C4A">
             <End Role="Users" EntitySet="Users" />
@@ -1021,26 +879,6 @@
                 <ScalarProperty Name="TaskPeopleId" ColumnName="TaskPeopleId" />
                 <ScalarProperty Name="TaskId" ColumnName="TaskId" />
                 <ScalarProperty Name="UserGroupLinkId" ColumnName="UserGroupLinkId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Tasks">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Tasks">
-              <MappingFragment StoreEntitySet="Tasks">
-                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
-                <ScalarProperty Name="StateId" ColumnName="StateId" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
-                <ScalarProperty Name="TaskDescription" ColumnName="TaskDescription" />
-                <ScalarProperty Name="TaskPoints" ColumnName="TaskPoints" />
-                <ScalarProperty Name="TaskPriority" ColumnName="TaskPriority" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TaskState">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.TaskState">
-              <MappingFragment StoreEntitySet="TaskState">
-                <ScalarProperty Name="StateId" ColumnName="StateId" />
-                <ScalarProperty Name="StateName" ColumnName="StateName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

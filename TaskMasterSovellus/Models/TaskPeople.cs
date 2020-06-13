@@ -18,7 +18,6 @@ namespace TaskMasterSovellus.Models
         public int TaskId { get; set; }
         public Nullable<int> UserGroupLinkId { get; set; }
     
-        public virtual Tasks Tasks { get; set; }
         public virtual UserGroupLink UserGroupLink { get; set; }
     }
 }
