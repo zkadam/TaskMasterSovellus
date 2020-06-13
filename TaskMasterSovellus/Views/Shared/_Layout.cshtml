@@ -43,7 +43,7 @@
                 <ul class="navbar-nav mr-auto">
 
 
-                    @*------------------------------------------LOGIN-------------------------------------*@
+                    @*------------------------------------------LOGGED IN NAV-------------------------------------*@
 
 
                     @if (Session["UserName"] != null)
@@ -57,18 +57,19 @@
                         </li>
 
                     }
-                    <li class="nav-item">
 
-                        @if (Session["UserName"] == null)
-                        {
-                            <a class="nav-link" style="color:chartreuse" href="~/home/Login">Login</a>
+                <li class="nav-item">
+                    @*------------------------------------------LOGGED OUT NAV OR LOGOUT-------------------------------------*@
+                    @if (Session["UserName"] == null)
+                    {
+                        <a class="nav-link" style="color:chartreuse" href="~/home/Login">Login</a>
 
-                        }
-                        else
-                        {
-                            <a class="nav-link" style="color:chartreuse" href="~/home/Logout">Logout</a>
-                        }
-                    </li>
+                    }
+                    else
+                    {
+                        <a class="nav-link" style="color:chartreuse" href="~/home/Logout">Logout</a>
+                    }
+                </li>
                 </ul>
 
 
@@ -88,7 +89,7 @@
 
         <div style="clear:both">
             <footer>
-                &copy; @DateTime.Now.Year - My ASP.NET Application
+                &copy; @DateTime.Now.Year - Task Master v1.0
             </footer>
         </div>
 

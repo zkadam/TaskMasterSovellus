@@ -20,22 +20,32 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Projects.ProjectName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sprints.SprintName)
-        </td>
-        <td>
-            @Html.ActionLink("view sprint tasks", "SprintTasksList", "SprintTaskList", new { id = item.SprintId }, null) |
-            @Html.ActionLink("Edit", "Edit", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |
-            @Html.ActionLink("Delete", "Delete", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Projects.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sprints.SprintName)
+            </td>
+            <td>
+                @Html.ActionLink("view sprint tasks", "SprintTasksList", "SprintTaskList", new { id = item.SprintId }, null) |
+                @Html.ActionLink("Edit", "Edit", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |
+                @Html.ActionLink("Delete", "Delete", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |
 
 
-        </td>
-    </tr>
-}
+            </td>
+        </tr>
+    }
 
 </table>
+<div>
+    @Html.ActionLink("Back to Projects","Index", "Projects")
+
+
+
+
+    @*@Html.ActionLink("Back to Project List", "Index", "Projects")*@
+
+</div>

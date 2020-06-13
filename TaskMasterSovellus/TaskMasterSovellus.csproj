@@ -138,7 +138,6 @@
     <Compile Include="Controllers\SprintTaskListController.cs" />
     <Compile Include="Controllers\SprintTemplateConnectionsController.cs" />
     <Compile Include="Controllers\SprintTemplatesController.cs" />
-    <Compile Include="Controllers\TaskStatesController.cs" />
     <Compile Include="Controllers\TemplateTaskConnectionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -405,11 +404,6 @@
     <Content Include="Views\TemplateTaskConnections\Details.cshtml" />
     <Content Include="Views\TemplateTaskConnections\Edit.cshtml" />
     <Content Include="Views\TemplateTaskConnections\Index.cshtml" />
-    <Content Include="Views\TaskStates\Create.cshtml" />
-    <Content Include="Views\TaskStates\Delete.cshtml" />
-    <Content Include="Views\TaskStates\Details.cshtml" />
-    <Content Include="Views\TaskStates\Edit.cshtml" />
-    <Content Include="Views\TaskStates\Index.cshtml" />
     <Content Include="Views\SprintTaskList\SprintsOfPrjekt.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\_Login.cshtml" />

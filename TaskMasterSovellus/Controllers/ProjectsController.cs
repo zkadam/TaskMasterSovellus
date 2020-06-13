@@ -19,9 +19,9 @@ namespace TaskMasterSovellus.Controllers
         {
             if (Session["UserName"] == null)
             {
-                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+               
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+                return RedirectToAction("login", "home");
             }
             else
             {
@@ -39,9 +39,9 @@ namespace TaskMasterSovellus.Controllers
         {
             if (Session["UserName"] == null)
             {
-                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+                return RedirectToAction("login", "home");
             }
             else
             {
@@ -61,9 +61,9 @@ namespace TaskMasterSovellus.Controllers
         {
             if (Session["UserName"] == null)
             {
-                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+               
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+                return RedirectToAction("login", "home");
             }
             else
             {
@@ -86,9 +86,9 @@ namespace TaskMasterSovellus.Controllers
         {
             if (Session["UserName"] == null)
             {
-                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
-                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+               
+               
+                return RedirectToAction("login", "home");
             }
             else
             {
@@ -117,9 +117,9 @@ namespace TaskMasterSovellus.Controllers
         {
             if (Session["UserName"] == null)
             {
-                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+               
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+                return RedirectToAction("login", "home");
             }
             else
             {
@@ -141,9 +141,9 @@ namespace TaskMasterSovellus.Controllers
         {
             if (Session["UserName"] == null)
             {
-                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+               
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-                return RedirectToAction("login", "home", new { actionName = actionName, controllerName = controllerName });
+                return RedirectToAction("login", "home");
             }
             else
             {

@@ -33,6 +33,6 @@ namespace TaskMasterSovellus.ViewModels
         public string BackgColor { get; set; }
         public string ProcessColor { get; set; }
 
-
+        //public int ProjectId { get; set; }
     }
 }
