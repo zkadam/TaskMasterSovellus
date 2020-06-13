@@ -11,13 +11,18 @@ namespace TaskMasterSovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Logins
     {
         public int LoginId { get; set; }
         public int UserId { get; set; }
+        [Required(ErrorMessage = "You have to enter your email address in order to login!")]
         public string Email { get; set; }
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "You have to enter your password in order to login!")]
         public string Password { get; set; }
+        public string LoginErrorMessage { get; set; }
     
         public virtual Users Users { get; set; }
     }
