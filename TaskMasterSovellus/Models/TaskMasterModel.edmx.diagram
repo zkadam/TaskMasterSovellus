@@ -37,6 +37,10 @@
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TaskPeopl__UserG__70DDC3D8" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TemplateT__State__6C190EBB" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__UserGroup__UserI__72C60C4A" />
+        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Tasks" Width="1.5" PointX="11.25" PointY="8.625" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Tasks_Sprint" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK__TaskPeopl__TaskI__76969D2E" />
+        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Tasks_TaskState" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
