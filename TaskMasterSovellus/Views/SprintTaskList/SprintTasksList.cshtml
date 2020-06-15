@@ -4,11 +4,47 @@
     ViewBag.Title = "SprintTasksList";
 }
 
+
+@section scripts {
+    <script type="text/javascript">
+//script modaleditin avaamiseen
+        $(function () {
+            $(".getTaskId").click(function () {
+                let taskId = $(this).data("taskid");
+                console.log("clicked on task: " + taskId);
+                var url = "/SprintTaskList/_ModalEdit/?id=" + taskId;
+                console.log(url);
+
+                $("#taskEdit").append(" <b>Opening task edit window for task: " + taskId + ".</b>");
+                //gettinng the view to the div
+                var $detailDivEdit = $("#taskEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $('#ModalTaskEdit').modal('show');
+                });
+
+            });
+
+        });
+
+
+
+
+    </script>
+
+}
+
+
+
+
 <h2>SprintTasksLit</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@*divi johon sijoitetaan editin*@
+<div id="taskEdit"></div>
 <table class="table sprintTable">
     <tr>
         <th>@Html.DisplayNameFor(model => model.TaskId)</th>
@@ -35,6 +71,7 @@
 
     @foreach (var item in Model)
     {
+        //GETTING VALUE OF BACKGROUND COLOR FOR TASKS PROCESSES
         string bgc = "";
         //string tskcolor = '#' + item.StateColor.ToString();
         if (string.IsNullOrEmpty(item.StateColor))
@@ -46,36 +83,38 @@
 
             bgc = '#' + item.StateColor;
         }
-       
-            <tr class="sprintrow">
-                <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
-                @*<td>@Html.DisplayFor(modelItem => item.StateId)</td>*@
-                <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-                <td>@Html.DisplayFor(modelItem => item.TaskDescription)</td>
-                <td>@Html.DisplayFor(modelItem => item.TaskPoints)</td>
-                <td>@Html.DisplayFor(modelItem => item.TaskPriority)</td>
-                <td style="background-color:@Html.Raw(bgc);color:black;font-weight:bold">@Html.DisplayFor(modelItem => item.StateName)</td>
-                @*<td>@Html.DisplayFor(modelItem => item.TemplateConnectionId)</td>*@
-                @*<td>@Html.DisplayFor(modelItem => item.SprintTemplateId)</td>*@
-                @*<td>@Html.DisplayFor(modelItem => item.SprintId)</td>*@
-                @*<td>@Html.DisplayFor(modelItem => item.SprintName)</td>*@
-                @*<td>@Html.DisplayFor(modelItem => item.StartDate)</td>*@
-                @*<td>@Html.DisplayFor(modelItem => item.EndDate)</td>*@
-                @*<td>@Html.DisplayFor(modelItem => item.BackgColor)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ProcessColor)</td>*@
 
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.TaskId }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-            
-            }
+<tr class="sprintrow">
+    <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
+    @*<td>@Html.DisplayFor(modelItem => item.StateId)</td>*@
+    <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
+    <td>@Html.DisplayFor(modelItem => item.TaskDescription)</td>
+    <td>@Html.DisplayFor(modelItem => item.TaskPoints)</td>
+    <td>@Html.DisplayFor(modelItem => item.TaskPriority)</td>
+    <td style="background-color:@Html.Raw(bgc);color:black;font-weight:bold">@Html.DisplayFor(modelItem => item.StateName)</td>
+    @*<td>@Html.DisplayFor(modelItem => item.TemplateConnectionId)</td>*@
+    @*<td>@Html.DisplayFor(modelItem => item.SprintTemplateId)</td>*@
+    @*<td>@Html.DisplayFor(modelItem => item.SprintId)</td>*@
+    @*<td>@Html.DisplayFor(modelItem => item.SprintName)</td>*@
+    @*<td>@Html.DisplayFor(modelItem => item.StartDate)</td>*@
+    @*<td>@Html.DisplayFor(modelItem => item.EndDate)</td>*@
+    @*<td>@Html.DisplayFor(modelItem => item.BackgColor)</td>
+        <td>@Html.DisplayFor(modelItem => item.ProcessColor)</td>*@
 
-    </table>
+    <td></td>
+    <td>
+        @*@Html.ActionLink("Edit", "Edit", new { id = item.TaskId }) |*@
+        <a class="getTaskId" data-taskid="@item.TaskId">Edit</a> |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+    </td>
+</tr>
+
+    }
+
+</table>
 <div>
     @Html.ActionLink("Back", null, null, null, new { href = Request.UrlReferrer })
- 
+
 
 </div>

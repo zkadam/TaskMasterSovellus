@@ -55,12 +55,12 @@ namespace TaskMasterSovellus.Controllers
 
 
 
-            if (id==null)
-            {
-                id = 1000;
-            }
+            //if (id==null)
+            //{
+            //    id = 1000;
+            //}
 
-                var tasks = from tas in db.Tasks
+                var tasks = from tas in db.Tasks.Where(a=>a.SprintId==id)
                         join tst in db.TaskState.Include(t1=>t1.Colors) on tas.StateId equals tst.StateId
                             //join cl3 in db.Colors.Include(c=>c.ColorValue) on tst.ColorId equals cl3.ColorId
                             //where tst.ColorId==cl3.ColorId
@@ -114,7 +114,7 @@ namespace TaskMasterSovellus.Controllers
 
                             };
 
-                tasks = tasks.Where(t => t.SprintId == id);
+                //tasks = tasks.Where(t => t.SprintId == id);
 
 
 
@@ -143,9 +143,45 @@ namespace TaskMasterSovellus.Controllers
             
             
             }
-                        //}
+        //}
 
-    
+
+        // GET: Tasks/Edit/5
+        public ActionResult _ModalEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Tasks tasks = db.Tasks.Find(id);
+            if (tasks == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", tasks.SprintId);
+            ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
+            return PartialView("_ModalEdit",tasks);
+        }
+
+        // POST: Tasks/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _ModalEdit([Bind(Include = "TaskId,StateId,TaskName,TaskDescription,TaskPoints,TaskPriority,SprintId")] Tasks tasks)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tasks).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("SprintTasksList", new { id = tasks.SprintId });
+
+            }
+            ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", tasks.SprintId);
+            ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
+            return PartialView("_ModalEdit", tasks);
+        }
+
 
         protected override void Dispose(bool disposing)
             {
