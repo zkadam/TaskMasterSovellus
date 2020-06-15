@@ -35,6 +35,8 @@
 
     @foreach (var item in Model)
     {
+        //string tskcolor = '#' + item.StateColor.ToString();
+
 
         <tr>
             <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
@@ -43,7 +45,7 @@
             <td>@Html.DisplayFor(modelItem => item.TaskDescription)</td>
             <td>@Html.DisplayFor(modelItem => item.TaskPoints)</td>
             <td>@Html.DisplayFor(modelItem => item.TaskPriority)</td>
-            <td>@Html.DisplayFor(modelItem => item.StateName)</td>
+            @*<td style="background-color:@Html.Raw(tskcolor)">@Html.DisplayFor(modelItem => item.StateName)</td>*@
             @*<td>@Html.DisplayFor(modelItem => item.TemplateConnectionId)</td>*@
             @*<td>@Html.DisplayFor(modelItem => item.SprintTemplateId)</td>*@
             @*<td>@Html.DisplayFor(modelItem => item.SprintId)</td>*@

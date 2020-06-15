@@ -48,8 +48,7 @@ namespace TaskMasterSovellus.Controllers
                 if (Session["UserName"] == null)
                 {
                    
-                    string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-                    return RedirectToAction("login", "home");
+                       return RedirectToAction("login", "home");
                 }
                 else
                 {
@@ -57,9 +56,16 @@ namespace TaskMasterSovellus.Controllers
                 var tasks = from tas in db.Tasks
                         join tst in db.TaskState on tas.StateId equals tst.StateId /*into tas_tst*/
                         join ttc in db.TemplateTaskConnection on tst.StateId equals ttc.StateId /*into tas_ttc*/
-                        join stl in db.SprintTemplate on ttc.SprintTemplateId equals stl.SprintTemplateId
-                        join stc in db.SprintTemplateConnection on stl.SprintTemplateId equals stc.SprintTemplateId
-                        join sp in db.Sprints on stc.SprintId equals sp.SprintId
+                        join cl3 in db.Colors on tst.ColorId equals cl3.ColorId
+                       
+                        join sp in db.Sprints on tas.SprintId equals sp.SprintId
+                            
+                            
+                            
+                            
+                            
+                            join stl in db.SprintTemplate on ttc.SprintTemplateId equals stl.SprintTemplateId
+                        //join stc in db.SprintTemplateConnection on stl.SprintTemplateId equals stc.SprintTemplateId
 
                         join cl in db.Colors on sp.BackgColor equals cl.ColorId
                         join cl2 in db.Colors on sp.ProcessColor equals cl2.ColorId
@@ -72,6 +78,7 @@ namespace TaskMasterSovellus.Controllers
                           TaskDescription = (string)tas.TaskDescription,
                             TaskPoints=tas.TaskPoints,
                             TaskPriority=tas.TaskPriority,
+                           SprintId=tas.SprintId,
 
 
                             //people connectiontaken out, later when brige to people is built could be included ZA
@@ -81,9 +88,9 @@ namespace TaskMasterSovellus.Controllers
                             //info from task state table ZA
 
                             StateName=(string)tst.StateName,
-                           TemplateConnectionId=ttc.TemplateConnectionId,
+                            StateColor= (string)cl3.ColorValue,
+                           TemplateConnectionId =ttc.TemplateConnectionId,
                            SprintTemplateId=stl.SprintTemplateId,
-                           SprintId=sp.SprintId,
                            SprintName=(string)sp.SprintName,
        
                             //public Nullable<System.DateTime> StartDate { get; set; }

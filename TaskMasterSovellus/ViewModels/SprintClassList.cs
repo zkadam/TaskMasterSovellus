@@ -22,10 +22,11 @@ namespace TaskMasterSovellus.ViewModels
         //info from task state table ZA
 
         public string StateName { get; set; }
+        public string StateColor { get; set; }
         public int TemplateConnectionId { get; set; }
         public int SprintTemplateId { get; set; }
 
-        public int SprintId { get; set; }
+        public Nullable<int> SprintId { get; set; }
         public string SprintName { get; set; }
         //public Nullable<int> AdminId { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
