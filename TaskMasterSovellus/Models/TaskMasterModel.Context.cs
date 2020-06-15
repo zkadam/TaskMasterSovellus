@@ -40,5 +40,6 @@ namespace TaskMasterSovellus.Models
         public virtual DbSet<TemplateTaskConnection> TemplateTaskConnection { get; set; }
         public virtual DbSet<UserGroupLink> UserGroupLink { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Tasks> Tasks { get; set; }
     }
 }

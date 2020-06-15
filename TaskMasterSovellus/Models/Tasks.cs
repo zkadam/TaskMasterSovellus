@@ -12,23 +12,25 @@ namespace TaskMasterSovellus.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TaskState
+    public partial class Tasks
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TaskState()
+        public Tasks()
         {
-            this.TemplateTaskConnection = new HashSet<TemplateTaskConnection>();
-            this.Tasks = new HashSet<Tasks>();
+            this.TaskPeople = new HashSet<TaskPeople>();
         }
     
+        public int TaskId { get; set; }
         public int StateId { get; set; }
-        public string StateName { get; set; }
-        public Nullable<int> ColorId { get; set; }
+        public string TaskName { get; set; }
+        public string TaskDescription { get; set; }
+        public Nullable<int> TaskPoints { get; set; }
+        public Nullable<int> TaskPriority { get; set; }
+        public Nullable<int> SprintId { get; set; }
     
-        public virtual Colors Colors { get; set; }
+        public virtual Sprints Sprints { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TemplateTaskConnection> TemplateTaskConnection { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<TaskPeople> TaskPeople { get; set; }
+        public virtual TaskState TaskState { get; set; }
     }
 }
