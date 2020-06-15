@@ -16,7 +16,6 @@
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.SprintTemplateConnection" Width="1.5" PointX="8.25" PointY="9.25" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.TaskPeople" Width="1.5" PointX="13.5" PointY="9.25" />
-        <EntityTypeShape EntityType="TaskMasterTietokantaModel.Tasks" Width="1.5" PointX="11.25" PointY="8.625" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.TaskState" Width="1.5" PointX="9" PointY="6.125" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.TemplateTaskConnection" Width="1.5" PointX="11.25" PointY="5.875" />
         <EntityTypeShape EntityType="TaskMasterTietokantaModel.UserGroupLink" Width="1.5" PointX="3" PointY="9.125" />
@@ -33,13 +32,9 @@
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__Projects__AdminI__74AE54BC" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK_SprintTemplateConnection_Sprints" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Tasks_Sprint" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TemplateT__Sprin__6B24EA82" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK__TaskPeopl__TaskI__76969D2E" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TaskPeopl__UserG__70DDC3D8" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Tasks_Tasks" />
-        <AssociationConnector Association="TaskMasterTietokantaModel.FK_Tasks_TaskState" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__TemplateT__State__6C190EBB" />
         <AssociationConnector Association="TaskMasterTietokantaModel.FK__UserGroup__UserI__72C60C4A" />
       </Diagram>

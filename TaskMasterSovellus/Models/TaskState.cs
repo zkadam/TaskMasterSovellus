@@ -17,7 +17,6 @@ namespace TaskMasterSovellus.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TaskState()
         {
-            this.Tasks = new HashSet<Tasks>();
             this.TemplateTaskConnection = new HashSet<TemplateTaskConnection>();
         }
     
@@ -26,8 +25,6 @@ namespace TaskMasterSovellus.Models
         public Nullable<int> ColorId { get; set; }
     
         public virtual Colors Colors { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TemplateTaskConnection> TemplateTaskConnection { get; set; }
     }
