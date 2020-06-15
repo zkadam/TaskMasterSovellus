@@ -190,6 +190,12 @@
     <Compile Include="Models\TaskPeople.cs">
       <DependentUpon>TaskMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Tasks.cs">
+      <DependentUpon>TaskMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaskState.cs">
+      <DependentUpon>TaskMasterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TemplateTaskConnection.cs">
       <DependentUpon>TaskMasterModel.tt</DependentUpon>
     </Compile>

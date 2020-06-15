@@ -18,7 +18,7 @@ namespace TaskMasterSovellus.Models
         public int SprintId { get; set; }
         public Nullable<int> SprintTemplateId { get; set; }
     
-        public virtual SprintTemplate SprintTemplate { get; set; }
         public virtual Sprints Sprints { get; set; }
+        public virtual SprintTemplate SprintTemplate { get; set; }
     }
 }

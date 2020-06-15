@@ -12,25 +12,23 @@ namespace TaskMasterSovellus.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Colors
+    public partial class TaskState
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Colors()
+        public TaskState()
         {
-            this.Sprints = new HashSet<Sprints>();
-            this.Sprints1 = new HashSet<Sprints>();
-            this.TaskState = new HashSet<TaskState>();
+            this.Tasks = new HashSet<Tasks>();
+            this.TemplateTaskConnection = new HashSet<TemplateTaskConnection>();
         }
     
-        public int ColorId { get; set; }
-        public string ColorName { get; set; }
-        public string ColorValue { get; set; }
+        public int StateId { get; set; }
+        public string StateName { get; set; }
+        public Nullable<int> ColorId { get; set; }
     
+        public virtual Colors Colors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Sprints> Sprints { get; set; }
+        public virtual ICollection<Tasks> Tasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Sprints> Sprints1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaskState> TaskState { get; set; }
+        public virtual ICollection<TemplateTaskConnection> TemplateTaskConnection { get; set; }
     }
 }

@@ -19,5 +19,6 @@ namespace TaskMasterSovellus.Models
         public Nullable<int> StateId { get; set; }
     
         public virtual SprintTemplate SprintTemplate { get; set; }
+        public virtual TaskState TaskState { get; set; }
     }
 }

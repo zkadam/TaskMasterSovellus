@@ -101,6 +101,26 @@
           <Property Name="TaskId" Type="int" Nullable="false" />
           <Property Name="UserGroupLinkId" Type="int" />
         </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateId" Type="int" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="TaskDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="TaskPoints" Type="int" />
+          <Property Name="TaskPriority" Type="int" />
+          <Property Name="SprintId" Type="int" />
+        </EntityType>
+        <EntityType Name="TaskState">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ColorId" Type="int" />
+        </EntityType>
         <EntityType Name="TemplateTaskConnection">
           <Key>
             <PropertyRef Name="TemplateConnectionId" />
@@ -221,6 +241,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__TaskPeopl__TaskI__76969D2E">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="TaskPeople" Type="Self.TaskPeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="TaskPeople">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__TaskPeopl__UserG__70DDC3D8">
           <End Role="UserGroupLink" Type="Self.UserGroupLink" Multiplicity="0..1" />
           <End Role="TaskPeople" Type="Self.TaskPeople" Multiplicity="*" />
@@ -242,6 +274,18 @@
             </Principal>
             <Dependent Role="TemplateTaskConnection">
               <PropertyRef Name="SprintTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TemplateT__State__6C190EBB">
+          <End Role="TaskState" Type="Self.TaskState" Multiplicity="0..1" />
+          <End Role="TemplateTaskConnection" Type="Self.TemplateTaskConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskState">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="TemplateTaskConnection">
+              <PropertyRef Name="StateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -305,6 +349,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tasks_Sprint">
+          <End Role="Sprints" Type="Self.Sprints" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sprints">
+              <PropertyRef Name="SprintId" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="SprintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="Tasks1" Type="Self.Tasks" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="Tasks1">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_TaskState">
+          <End Role="TaskState" Type="Self.TaskState" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskState">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskState_Color">
+          <End Role="Colors" Type="Self.Colors" Multiplicity="0..1" />
+          <End Role="TaskState" Type="Self.TaskState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colors">
+              <PropertyRef Name="ColorId" />
+            </Principal>
+            <Dependent Role="TaskState">
+              <PropertyRef Name="ColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TaskMasterTietokantaModelStoreContainer">
           <EntitySet Name="Colors" EntityType="Self.Colors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupLink" EntityType="Self.GroupLink" Schema="dbo" store:Type="Tables" />
@@ -317,6 +409,8 @@
           <EntitySet Name="SprintTemplateConnection" EntityType="Self.SprintTemplateConnection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskPeople" EntityType="Self.TaskPeople" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskState" EntityType="Self.TaskState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateTaskConnection" EntityType="Self.TemplateTaskConnection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGroupLink" EntityType="Self.UserGroupLink" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -352,12 +446,20 @@
             <End Role="Colors" EntitySet="Colors" />
             <End Role="Sprints" EntitySet="Sprints" />
           </AssociationSet>
+          <AssociationSet Name="FK__TaskPeopl__TaskI__76969D2E" Association="Self.FK__TaskPeopl__TaskI__76969D2E">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TaskPeople" EntitySet="TaskPeople" />
+          </AssociationSet>
           <AssociationSet Name="FK__TaskPeopl__UserG__70DDC3D8" Association="Self.FK__TaskPeopl__UserG__70DDC3D8">
             <End Role="UserGroupLink" EntitySet="UserGroupLink" />
             <End Role="TaskPeople" EntitySet="TaskPeople" />
           </AssociationSet>
           <AssociationSet Name="FK__TemplateT__Sprin__6B24EA82" Association="Self.FK__TemplateT__Sprin__6B24EA82">
             <End Role="SprintTemplate" EntitySet="SprintTemplate" />
+            <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TemplateT__State__6C190EBB" Association="Self.FK__TemplateT__State__6C190EBB">
+            <End Role="TaskState" EntitySet="TaskState" />
             <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
           </AssociationSet>
           <AssociationSet Name="FK__UserGroup__Group__71D1E811" Association="Self.FK__UserGroup__Group__71D1E811">
@@ -380,297 +482,44 @@
             <End Role="SprintTemplate" EntitySet="SprintTemplate" />
             <End Role="SprintTemplateConnection" EntitySet="SprintTemplateConnection" />
           </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Sprint" Association="Self.FK_Tasks_Sprint">
+            <End Role="Sprints" EntitySet="Sprints" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Tasks" Association="Self.FK_Tasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Tasks1" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_TaskState" Association="Self.FK_Tasks_TaskState">
+            <End Role="TaskState" EntitySet="TaskState" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskState_Color" Association="Self.FK_TaskState_Color">
+            <End Role="Colors" EntitySet="Colors" />
+            <End Role="TaskState" EntitySet="TaskState" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TaskMasterTietokantaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Colors">
-          <Key>
-            <PropertyRef Name="ColorId" />
-          </Key>
-          <Property Name="ColorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ColorName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ColorValue" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7" FromRole="Colors" ToRole="Sprints" />
-          <NavigationProperty Name="Sprints1" Relationship="TaskMasterTietokantaModel.FK_Sprints_Process_color" FromRole="Colors" ToRole="Sprints" />
-        </EntityType>
-        <EntityType Name="GroupLink">
-          <Key>
-            <PropertyRef Name="GroupLinkId" />
-          </Key>
-          <Property Name="GroupLinkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GroupId" Type="Int32" />
-          <Property Name="ProjectId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Groups" Relationship="Self.FK__GroupLink__Group__778AC167" FromRole="GroupLink" ToRole="Groups" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK__GroupLink__Proje__73BA3083" FromRole="GroupLink" ToRole="Projects" />
-        </EntityType>
-        <EntityType Name="Groups">
-          <Key>
-            <PropertyRef Name="GroupId" />
-          </Key>
-          <Property Name="GroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="GroupLink" Relationship="Self.FK__GroupLink__Group__778AC167" FromRole="Groups" ToRole="GroupLink" />
-          <NavigationProperty Name="UserGroupLink" Relationship="Self.FK__UserGroup__Group__71D1E811" FromRole="Groups" ToRole="UserGroupLink" />
-        </EntityType>
-        <EntityType Name="Logins">
-          <Key>
-            <PropertyRef Name="LoginId" />
-          </Key>
-          <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__Logins__UserId__75A278F5" FromRole="Logins" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="ProjectConnection">
-          <Key>
-            <PropertyRef Name="ProjectConnectionId" />
-          </Key>
-          <Property Name="ProjectConnectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SprintId" Type="Int32" />
-          <Property Name="ProjectId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK__ProjectCo__Proje__3D5E1FD2" FromRole="ProjectConnection" ToRole="Projects" />
-          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99" FromRole="ProjectConnection" ToRole="Sprints" />
-        </EntityType>
-        <EntityType Name="Projects">
-          <Key>
-            <PropertyRef Name="ProjectId" />
-          </Key>
-          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AdminId" Type="Int32" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="ProjectPicture" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="GroupLink" Relationship="Self.FK__GroupLink__Proje__73BA3083" FromRole="Projects" ToRole="GroupLink" />
-          <NavigationProperty Name="ProjectConnection" Relationship="Self.FK__ProjectCo__Proje__3D5E1FD2" FromRole="Projects" ToRole="ProjectConnection" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__Projects__AdminI__74AE54BC" FromRole="Projects" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="SprintTemplate">
-          <Key>
-            <PropertyRef Name="SprintTemplateId" />
-          </Key>
-          <Property Name="SprintTemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SprintTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="TemplateTaskConnection" Relationship="Self.FK__TemplateT__Sprin__6B24EA82" FromRole="SprintTemplate" ToRole="TemplateTaskConnection" />
-          <NavigationProperty Name="SprintTemplateConnection" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate" FromRole="SprintTemplate" ToRole="SprintTemplateConnection" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="TaskPeople">
-          <Key>
-            <PropertyRef Name="TaskPeopleId" />
-          </Key>
-          <Property Name="TaskPeopleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TaskId" Type="Int32" Nullable="false" />
-          <Property Name="UserGroupLinkId" Type="Int32" />
-          <NavigationProperty Name="UserGroupLink" Relationship="Self.FK__TaskPeopl__UserG__70DDC3D8" FromRole="TaskPeople" ToRole="UserGroupLink" />
-        </EntityType>
-        <EntityType Name="TemplateTaskConnection">
-          <Key>
-            <PropertyRef Name="TemplateConnectionId" />
-          </Key>
-          <Property Name="TemplateConnectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SprintTemplateId" Type="Int32" Nullable="false" />
-          <Property Name="StateId" Type="Int32" />
-          <NavigationProperty Name="SprintTemplate" Relationship="Self.FK__TemplateT__Sprin__6B24EA82" FromRole="TemplateTaskConnection" ToRole="SprintTemplate" />
-        </EntityType>
-        <EntityType Name="UserGroupLink">
-          <Key>
-            <PropertyRef Name="UserGroupLinkId" />
-          </Key>
-          <Property Name="UserGroupLinkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GroupId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" />
-          <NavigationProperty Name="Groups" Relationship="Self.FK__UserGroup__Group__71D1E811" FromRole="UserGroupLink" ToRole="Groups" />
-          <NavigationProperty Name="TaskPeople" Relationship="Self.FK__TaskPeopl__UserG__70DDC3D8" FromRole="UserGroupLink" ToRole="TaskPeople" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__UserGroup__UserI__72C60C4A" FromRole="UserGroupLink" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Surname" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="GivenName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__Logins__UserId__75A278F5" FromRole="Users" ToRole="Logins" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK__Projects__AdminI__74AE54BC" FromRole="Users" ToRole="Projects" />
-          <NavigationProperty Name="UserGroupLink" Relationship="Self.FK__UserGroup__UserI__72C60C4A" FromRole="Users" ToRole="UserGroupLink" />
-          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" FromRole="Users" ToRole="Sprints" />
-        </EntityType>
-        <Association Name="FK__GroupLink__Group__778AC167">
-          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
-          <End Role="GroupLink" Type="Self.GroupLink" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="GroupId" />
-            </Principal>
-            <Dependent Role="GroupLink">
-              <PropertyRef Name="GroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__GroupLink__Proje__73BA3083">
-          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
-          <End Role="GroupLink" Type="Self.GroupLink" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Projects">
-              <PropertyRef Name="ProjectId" />
-            </Principal>
-            <Dependent Role="GroupLink">
-              <PropertyRef Name="ProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__UserGroup__Group__71D1E811">
-          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
-          <End Role="UserGroupLink" Type="Self.UserGroupLink" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="GroupId" />
-            </Principal>
-            <Dependent Role="UserGroupLink">
-              <PropertyRef Name="GroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Logins__UserId__75A278F5">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Logins" Type="Self.Logins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Logins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ProjectCo__Proje__3D5E1FD2">
-          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
-          <End Role="ProjectConnection" Type="Self.ProjectConnection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Projects">
-              <PropertyRef Name="ProjectId" />
-            </Principal>
-            <Dependent Role="ProjectConnection">
-              <PropertyRef Name="ProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Projects__AdminI__74AE54BC">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Projects">
-              <PropertyRef Name="AdminId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TemplateT__Sprin__6B24EA82">
-          <End Role="SprintTemplate" Type="Self.SprintTemplate" Multiplicity="1" />
-          <End Role="TemplateTaskConnection" Type="Self.TemplateTaskConnection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SprintTemplate">
-              <PropertyRef Name="SprintTemplateId" />
-            </Principal>
-            <Dependent Role="TemplateTaskConnection">
-              <PropertyRef Name="SprintTemplateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TaskPeopl__UserG__70DDC3D8">
-          <End Role="UserGroupLink" Type="Self.UserGroupLink" Multiplicity="0..1" />
-          <End Role="TaskPeople" Type="Self.TaskPeople" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserGroupLink">
-              <PropertyRef Name="UserGroupLinkId" />
-            </Principal>
-            <Dependent Role="TaskPeople">
-              <PropertyRef Name="UserGroupLinkId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__UserGroup__UserI__72C60C4A">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="UserGroupLink" Type="Self.UserGroupLink" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="UserGroupLink">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="TaskMasterTietokantaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Colors" EntityType="Self.Colors" />
-          <EntitySet Name="GroupLink" EntityType="Self.GroupLink" />
-          <EntitySet Name="Groups" EntityType="Self.Groups" />
-          <EntitySet Name="Logins" EntityType="Self.Logins" />
-          <EntitySet Name="ProjectConnection" EntityType="Self.ProjectConnection" />
-          <EntitySet Name="Projects" EntityType="Self.Projects" />
-          <EntitySet Name="SprintTemplate" EntityType="Self.SprintTemplate" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="TaskPeople" EntityType="Self.TaskPeople" />
-          <EntitySet Name="TemplateTaskConnection" EntityType="Self.TemplateTaskConnection" />
-          <EntitySet Name="UserGroupLink" EntityType="Self.UserGroupLink" />
-          <EntitySet Name="Users" EntityType="Self.Users" />
-          <AssociationSet Name="FK__GroupLink__Group__778AC167" Association="Self.FK__GroupLink__Group__778AC167">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="GroupLink" EntitySet="GroupLink" />
-          </AssociationSet>
-          <AssociationSet Name="FK__GroupLink__Proje__73BA3083" Association="Self.FK__GroupLink__Proje__73BA3083">
-            <End Role="Projects" EntitySet="Projects" />
-            <End Role="GroupLink" EntitySet="GroupLink" />
-          </AssociationSet>
-          <AssociationSet Name="FK__UserGroup__Group__71D1E811" Association="Self.FK__UserGroup__Group__71D1E811">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="UserGroupLink" EntitySet="UserGroupLink" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Logins__UserId__75A278F5" Association="Self.FK__Logins__UserId__75A278F5">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Logins" EntitySet="Logins" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ProjectCo__Proje__3D5E1FD2" Association="Self.FK__ProjectCo__Proje__3D5E1FD2">
-            <End Role="Projects" EntitySet="Projects" />
-            <End Role="ProjectConnection" EntitySet="ProjectConnection" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Projects__AdminI__74AE54BC" Association="Self.FK__Projects__AdminI__74AE54BC">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Projects" EntitySet="Projects" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TemplateT__Sprin__6B24EA82" Association="Self.FK__TemplateT__Sprin__6B24EA82">
-            <End Role="SprintTemplate" EntitySet="SprintTemplate" />
-            <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TaskPeopl__UserG__70DDC3D8" Association="Self.FK__TaskPeopl__UserG__70DDC3D8">
-            <End Role="UserGroupLink" EntitySet="UserGroupLink" />
-            <End Role="TaskPeople" EntitySet="TaskPeople" />
-          </AssociationSet>
-          <AssociationSet Name="FK__UserGroup__UserI__72C60C4A" Association="Self.FK__UserGroup__UserI__72C60C4A">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="UserGroupLink" EntitySet="UserGroupLink" />
-          </AssociationSet>
-          <EntitySet Name="SprintTemplateConnection" EntityType="TaskMasterTietokantaModel.SprintTemplateConnection" />
-          <AssociationSet Name="FK_SprintTemplateConnection_SprintTemplate" Association="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate">
-            <End Role="SprintTemplate" EntitySet="SprintTemplate" />
-            <End Role="SprintTemplateConnection" EntitySet="SprintTemplateConnection" />
-          </AssociationSet>
+          <EntitySet Name="Colors" EntityType="TaskMasterTietokantaModel.Colors" />
+          <EntitySet Name="GroupLink" EntityType="TaskMasterTietokantaModel.GroupLink" />
+          <EntitySet Name="Groups" EntityType="TaskMasterTietokantaModel.Groups" />
+          <EntitySet Name="Logins" EntityType="TaskMasterTietokantaModel.Logins" />
+          <EntitySet Name="ProjectConnection" EntityType="TaskMasterTietokantaModel.ProjectConnection" />
+          <EntitySet Name="Projects" EntityType="TaskMasterTietokantaModel.Projects" />
           <EntitySet Name="Sprints" EntityType="TaskMasterTietokantaModel.Sprints" />
+          <EntitySet Name="SprintTemplate" EntityType="TaskMasterTietokantaModel.SprintTemplate" />
+          <EntitySet Name="SprintTemplateConnection" EntityType="TaskMasterTietokantaModel.SprintTemplateConnection" />
+          <EntitySet Name="sysdiagrams" EntityType="TaskMasterTietokantaModel.sysdiagrams" />
+          <EntitySet Name="TaskPeople" EntityType="TaskMasterTietokantaModel.TaskPeople" />
+          <EntitySet Name="Tasks" EntityType="TaskMasterTietokantaModel.Tasks" />
+          <EntitySet Name="TaskState" EntityType="TaskMasterTietokantaModel.TaskState" />
+          <EntitySet Name="TemplateTaskConnection" EntityType="TaskMasterTietokantaModel.TemplateTaskConnection" />
+          <EntitySet Name="UserGroupLink" EntityType="TaskMasterTietokantaModel.UserGroupLink" />
+          <EntitySet Name="Users" EntityType="TaskMasterTietokantaModel.Users" />
           <AssociationSet Name="FK__Sprints__BackgCo__68487DD7" Association="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7">
             <End Role="Colors" EntitySet="Colors" />
             <End Role="Sprints" EntitySet="Sprints" />
@@ -679,9 +528,37 @@
             <End Role="Colors" EntitySet="Colors" />
             <End Role="Sprints" EntitySet="Sprints" />
           </AssociationSet>
+          <AssociationSet Name="FK_TaskState_Color" Association="TaskMasterTietokantaModel.FK_TaskState_Color">
+            <End Role="Colors" EntitySet="Colors" />
+            <End Role="TaskState" EntitySet="TaskState" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GroupLink__Group__778AC167" Association="TaskMasterTietokantaModel.FK__GroupLink__Group__778AC167">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupLink" EntitySet="GroupLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GroupLink__Proje__73BA3083" Association="TaskMasterTietokantaModel.FK__GroupLink__Proje__73BA3083">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="GroupLink" EntitySet="GroupLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserGroup__Group__71D1E811" Association="TaskMasterTietokantaModel.FK__UserGroup__Group__71D1E811">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="UserGroupLink" EntitySet="UserGroupLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Logins__UserId__75A278F5" Association="TaskMasterTietokantaModel.FK__Logins__UserId__75A278F5">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectCo__Proje__3D5E1FD2" Association="TaskMasterTietokantaModel.FK__ProjectCo__Proje__3D5E1FD2">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectConnection" EntitySet="ProjectConnection" />
+          </AssociationSet>
           <AssociationSet Name="FK__ProjectCo__Sprin__3C69FB99" Association="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99">
             <End Role="Sprints" EntitySet="Sprints" />
             <End Role="ProjectConnection" EntitySet="ProjectConnection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Projects__AdminI__74AE54BC" Association="TaskMasterTietokantaModel.FK__Projects__AdminI__74AE54BC">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Projects" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK__Sprints__AdminId__6754599E" Association="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E">
             <End Role="Users" EntitySet="Users" />
@@ -691,29 +568,107 @@
             <End Role="Sprints" EntitySet="Sprints" />
             <End Role="SprintTemplateConnection" EntitySet="SprintTemplateConnection" />
           </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Sprint" Association="TaskMasterTietokantaModel.FK_Tasks_Sprint">
+            <End Role="Sprints" EntitySet="Sprints" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TemplateT__Sprin__6B24EA82" Association="TaskMasterTietokantaModel.FK__TemplateT__Sprin__6B24EA82">
+            <End Role="SprintTemplate" EntitySet="SprintTemplate" />
+            <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SprintTemplateConnection_SprintTemplate" Association="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate">
+            <End Role="SprintTemplate" EntitySet="SprintTemplate" />
+            <End Role="SprintTemplateConnection" EntitySet="SprintTemplateConnection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TaskPeopl__TaskI__76969D2E" Association="TaskMasterTietokantaModel.FK__TaskPeopl__TaskI__76969D2E">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TaskPeople" EntitySet="TaskPeople" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TaskPeopl__UserG__70DDC3D8" Association="TaskMasterTietokantaModel.FK__TaskPeopl__UserG__70DDC3D8">
+            <End Role="UserGroupLink" EntitySet="UserGroupLink" />
+            <End Role="TaskPeople" EntitySet="TaskPeople" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Tasks" Association="TaskMasterTietokantaModel.FK_Tasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Tasks1" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_TaskState" Association="TaskMasterTietokantaModel.FK_Tasks_TaskState">
+            <End Role="TaskState" EntitySet="TaskState" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TemplateT__State__6C190EBB" Association="TaskMasterTietokantaModel.FK__TemplateT__State__6C190EBB">
+            <End Role="TaskState" EntitySet="TaskState" />
+            <End Role="TemplateTaskConnection" EntitySet="TemplateTaskConnection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserGroup__UserI__72C60C4A" Association="TaskMasterTietokantaModel.FK__UserGroup__UserI__72C60C4A">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserGroupLink" EntitySet="UserGroupLink" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="SprintTemplateConnection">
+        <EntityType Name="Colors">
           <Key>
-            <PropertyRef Name="TemplateConnectionId" />
+            <PropertyRef Name="ColorId" />
           </Key>
-          <Property Name="TemplateConnectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SprintId" Type="Int32" Nullable="false" />
-          <Property Name="SprintTemplateId" Type="Int32" />
-          <NavigationProperty Name="SprintTemplate" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate" FromRole="SprintTemplateConnection" ToRole="SprintTemplate" />
-          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_Sprints" FromRole="SprintTemplateConnection" ToRole="Sprints" />
+          <Property Name="ColorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ColorName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ColorValue" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__Sprints__BackgCo__68487DD7" FromRole="Colors" ToRole="Sprints" />
+          <NavigationProperty Name="Sprints1" Relationship="TaskMasterTietokantaModel.FK_Sprints_Process_color" FromRole="Colors" ToRole="Sprints" />
+          <NavigationProperty Name="TaskState" Relationship="TaskMasterTietokantaModel.FK_TaskState_Color" FromRole="Colors" ToRole="TaskState" />
         </EntityType>
-        <Association Name="FK_SprintTemplateConnection_SprintTemplate">
-          <End Type="TaskMasterTietokantaModel.SprintTemplate" Role="SprintTemplate" Multiplicity="0..1" />
-          <End Type="TaskMasterTietokantaModel.SprintTemplateConnection" Role="SprintTemplateConnection" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SprintTemplate">
-              <PropertyRef Name="SprintTemplateId" />
-            </Principal>
-            <Dependent Role="SprintTemplateConnection">
-              <PropertyRef Name="SprintTemplateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="GroupLink">
+          <Key>
+            <PropertyRef Name="GroupLinkId" />
+          </Key>
+          <Property Name="GroupLinkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Groups" Relationship="TaskMasterTietokantaModel.FK__GroupLink__Group__778AC167" FromRole="GroupLink" ToRole="Groups" />
+          <NavigationProperty Name="Projects" Relationship="TaskMasterTietokantaModel.FK__GroupLink__Proje__73BA3083" FromRole="GroupLink" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GroupLink" Relationship="TaskMasterTietokantaModel.FK__GroupLink__Group__778AC167" FromRole="Groups" ToRole="GroupLink" />
+          <NavigationProperty Name="UserGroupLink" Relationship="TaskMasterTietokantaModel.FK__UserGroup__Group__71D1E811" FromRole="Groups" ToRole="UserGroupLink" />
+        </EntityType>
+        <EntityType Name="Logins">
+          <Key>
+            <PropertyRef Name="LoginId" />
+          </Key>
+          <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="TaskMasterTietokantaModel.FK__Logins__UserId__75A278F5" FromRole="Logins" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ProjectConnection">
+          <Key>
+            <PropertyRef Name="ProjectConnectionId" />
+          </Key>
+          <Property Name="ProjectConnectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SprintId" Type="Int32" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Projects" Relationship="TaskMasterTietokantaModel.FK__ProjectCo__Proje__3D5E1FD2" FromRole="ProjectConnection" ToRole="Projects" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99" FromRole="ProjectConnection" ToRole="Sprints" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdminId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="ProjectPicture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="GroupLink" Relationship="TaskMasterTietokantaModel.FK__GroupLink__Proje__73BA3083" FromRole="Projects" ToRole="GroupLink" />
+          <NavigationProperty Name="ProjectConnection" Relationship="TaskMasterTietokantaModel.FK__ProjectCo__Proje__3D5E1FD2" FromRole="Projects" ToRole="ProjectConnection" />
+          <NavigationProperty Name="Users" Relationship="TaskMasterTietokantaModel.FK__Projects__AdminI__74AE54BC" FromRole="Projects" ToRole="Users" />
+        </EntityType>
         <EntityType Name="Sprints">
           <Key>
             <PropertyRef Name="SprintId" />
@@ -730,6 +685,107 @@
           <NavigationProperty Name="ProjectConnection" Relationship="TaskMasterTietokantaModel.FK__ProjectCo__Sprin__3C69FB99" FromRole="Sprints" ToRole="ProjectConnection" />
           <NavigationProperty Name="Users" Relationship="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" FromRole="Sprints" ToRole="Users" />
           <NavigationProperty Name="SprintTemplateConnection" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_Sprints" FromRole="Sprints" ToRole="SprintTemplateConnection" />
+          <NavigationProperty Name="Tasks" Relationship="TaskMasterTietokantaModel.FK_Tasks_Sprint" FromRole="Sprints" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="SprintTemplate">
+          <Key>
+            <PropertyRef Name="SprintTemplateId" />
+          </Key>
+          <Property Name="SprintTemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SprintTemplateName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TemplateTaskConnection" Relationship="TaskMasterTietokantaModel.FK__TemplateT__Sprin__6B24EA82" FromRole="SprintTemplate" ToRole="TemplateTaskConnection" />
+          <NavigationProperty Name="SprintTemplateConnection" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate" FromRole="SprintTemplate" ToRole="SprintTemplateConnection" />
+        </EntityType>
+        <EntityType Name="SprintTemplateConnection">
+          <Key>
+            <PropertyRef Name="TemplateConnectionId" />
+          </Key>
+          <Property Name="TemplateConnectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SprintId" Type="Int32" Nullable="false" />
+          <Property Name="SprintTemplateId" Type="Int32" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_Sprints" FromRole="SprintTemplateConnection" ToRole="Sprints" />
+          <NavigationProperty Name="SprintTemplate" Relationship="TaskMasterTietokantaModel.FK_SprintTemplateConnection_SprintTemplate" FromRole="SprintTemplateConnection" ToRole="SprintTemplate" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TaskPeople">
+          <Key>
+            <PropertyRef Name="TaskPeopleId" />
+          </Key>
+          <Property Name="TaskPeopleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskId" Type="Int32" Nullable="false" />
+          <Property Name="UserGroupLinkId" Type="Int32" />
+          <NavigationProperty Name="Tasks" Relationship="TaskMasterTietokantaModel.FK__TaskPeopl__TaskI__76969D2E" FromRole="TaskPeople" ToRole="Tasks" />
+          <NavigationProperty Name="UserGroupLink" Relationship="TaskMasterTietokantaModel.FK__TaskPeopl__UserG__70DDC3D8" FromRole="TaskPeople" ToRole="UserGroupLink" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateId" Type="Int32" Nullable="false" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="TaskDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TaskPoints" Type="Int32" />
+          <Property Name="TaskPriority" Type="Int32" />
+          <Property Name="SprintId" Type="Int32" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK_Tasks_Sprint" FromRole="Tasks" ToRole="Sprints" />
+          <NavigationProperty Name="TaskPeople" Relationship="TaskMasterTietokantaModel.FK__TaskPeopl__TaskI__76969D2E" FromRole="Tasks" ToRole="TaskPeople" />
+          <NavigationProperty Name="Tasks1" Relationship="TaskMasterTietokantaModel.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Tasks1" />
+          <NavigationProperty Name="Tasks2" Relationship="TaskMasterTietokantaModel.FK_Tasks_Tasks" FromRole="Tasks1" ToRole="Tasks" />
+          <NavigationProperty Name="TaskState" Relationship="TaskMasterTietokantaModel.FK_Tasks_TaskState" FromRole="Tasks" ToRole="TaskState" />
+        </EntityType>
+        <EntityType Name="TaskState">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ColorId" Type="Int32" />
+          <NavigationProperty Name="Colors" Relationship="TaskMasterTietokantaModel.FK_TaskState_Color" FromRole="TaskState" ToRole="Colors" />
+          <NavigationProperty Name="Tasks" Relationship="TaskMasterTietokantaModel.FK_Tasks_TaskState" FromRole="TaskState" ToRole="Tasks" />
+          <NavigationProperty Name="TemplateTaskConnection" Relationship="TaskMasterTietokantaModel.FK__TemplateT__State__6C190EBB" FromRole="TaskState" ToRole="TemplateTaskConnection" />
+        </EntityType>
+        <EntityType Name="TemplateTaskConnection">
+          <Key>
+            <PropertyRef Name="TemplateConnectionId" />
+          </Key>
+          <Property Name="TemplateConnectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SprintTemplateId" Type="Int32" Nullable="false" />
+          <Property Name="StateId" Type="Int32" />
+          <NavigationProperty Name="SprintTemplate" Relationship="TaskMasterTietokantaModel.FK__TemplateT__Sprin__6B24EA82" FromRole="TemplateTaskConnection" ToRole="SprintTemplate" />
+          <NavigationProperty Name="TaskState" Relationship="TaskMasterTietokantaModel.FK__TemplateT__State__6C190EBB" FromRole="TemplateTaskConnection" ToRole="TaskState" />
+        </EntityType>
+        <EntityType Name="UserGroupLink">
+          <Key>
+            <PropertyRef Name="UserGroupLinkId" />
+          </Key>
+          <Property Name="UserGroupLinkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Groups" Relationship="TaskMasterTietokantaModel.FK__UserGroup__Group__71D1E811" FromRole="UserGroupLink" ToRole="Groups" />
+          <NavigationProperty Name="TaskPeople" Relationship="TaskMasterTietokantaModel.FK__TaskPeopl__UserG__70DDC3D8" FromRole="UserGroupLink" ToRole="TaskPeople" />
+          <NavigationProperty Name="Users" Relationship="TaskMasterTietokantaModel.FK__UserGroup__UserI__72C60C4A" FromRole="UserGroupLink" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="GivenName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Logins" Relationship="TaskMasterTietokantaModel.FK__Logins__UserId__75A278F5" FromRole="Users" ToRole="Logins" />
+          <NavigationProperty Name="Projects" Relationship="TaskMasterTietokantaModel.FK__Projects__AdminI__74AE54BC" FromRole="Users" ToRole="Projects" />
+          <NavigationProperty Name="Sprints" Relationship="TaskMasterTietokantaModel.FK__Sprints__AdminId__6754599E" FromRole="Users" ToRole="Sprints" />
+          <NavigationProperty Name="UserGroupLink" Relationship="TaskMasterTietokantaModel.FK__UserGroup__UserI__72C60C4A" FromRole="Users" ToRole="UserGroupLink" />
         </EntityType>
         <Association Name="FK__Sprints__BackgCo__68487DD7">
           <End Type="TaskMasterTietokantaModel.Colors" Role="Colors" Multiplicity="0..1" />
@@ -755,6 +811,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TaskState_Color">
+          <End Type="TaskMasterTietokantaModel.Colors" Role="Colors" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.TaskState" Role="TaskState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colors">
+              <PropertyRef Name="ColorId" />
+            </Principal>
+            <Dependent Role="TaskState">
+              <PropertyRef Name="ColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GroupLink__Group__778AC167">
+          <End Type="TaskMasterTietokantaModel.Groups" Role="Groups" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.GroupLink" Role="GroupLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="GroupLink">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GroupLink__Proje__73BA3083">
+          <End Type="TaskMasterTietokantaModel.Projects" Role="Projects" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.GroupLink" Role="GroupLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="GroupLink">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserGroup__Group__71D1E811">
+          <End Type="TaskMasterTietokantaModel.Groups" Role="Groups" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.UserGroupLink" Role="UserGroupLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="UserGroupLink">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Logins__UserId__75A278F5">
+          <End Type="TaskMasterTietokantaModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.Logins" Role="Logins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectCo__Proje__3D5E1FD2">
+          <End Type="TaskMasterTietokantaModel.Projects" Role="Projects" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.ProjectConnection" Role="ProjectConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectConnection">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__ProjectCo__Sprin__3C69FB99">
           <End Type="TaskMasterTietokantaModel.Sprints" Role="Sprints" Multiplicity="0..1" />
           <End Type="TaskMasterTietokantaModel.ProjectConnection" Role="ProjectConnection" Multiplicity="*" />
@@ -764,6 +892,18 @@
             </Principal>
             <Dependent Role="ProjectConnection">
               <PropertyRef Name="SprintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Projects__AdminI__74AE54BC">
+          <End Type="TaskMasterTietokantaModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.Projects" Role="Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="AdminId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -791,7 +931,115 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_Tasks_Sprint">
+          <End Type="TaskMasterTietokantaModel.Sprints" Role="Sprints" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sprints">
+              <PropertyRef Name="SprintId" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="SprintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TemplateT__Sprin__6B24EA82">
+          <End Type="TaskMasterTietokantaModel.SprintTemplate" Role="SprintTemplate" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.TemplateTaskConnection" Role="TemplateTaskConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SprintTemplate">
+              <PropertyRef Name="SprintTemplateId" />
+            </Principal>
+            <Dependent Role="TemplateTaskConnection">
+              <PropertyRef Name="SprintTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SprintTemplateConnection_SprintTemplate">
+          <End Type="TaskMasterTietokantaModel.SprintTemplate" Role="SprintTemplate" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.SprintTemplateConnection" Role="SprintTemplateConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SprintTemplate">
+              <PropertyRef Name="SprintTemplateId" />
+            </Principal>
+            <Dependent Role="SprintTemplateConnection">
+              <PropertyRef Name="SprintTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TaskPeopl__TaskI__76969D2E">
+          <End Type="TaskMasterTietokantaModel.Tasks" Role="Tasks" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.TaskPeople" Role="TaskPeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="TaskPeople">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TaskPeopl__UserG__70DDC3D8">
+          <End Type="TaskMasterTietokantaModel.UserGroupLink" Role="UserGroupLink" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.TaskPeople" Role="TaskPeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserGroupLink">
+              <PropertyRef Name="UserGroupLinkId" />
+            </Principal>
+            <Dependent Role="TaskPeople">
+              <PropertyRef Name="UserGroupLinkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Tasks">
+          <End Type="TaskMasterTietokantaModel.Tasks" Role="Tasks" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.Tasks" Role="Tasks1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="Tasks1">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_TaskState">
+          <End Type="TaskMasterTietokantaModel.TaskState" Role="TaskState" Multiplicity="1" />
+          <End Type="TaskMasterTietokantaModel.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskState">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TemplateT__State__6C190EBB">
+          <End Type="TaskMasterTietokantaModel.TaskState" Role="TaskState" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.TemplateTaskConnection" Role="TemplateTaskConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskState">
+              <PropertyRef Name="StateId" />
+            </Principal>
+            <Dependent Role="TemplateTaskConnection">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserGroup__UserI__72C60C4A">
+          <End Type="TaskMasterTietokantaModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="TaskMasterTietokantaModel.UserGroupLink" Role="UserGroupLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserGroupLink">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -800,121 +1048,57 @@
           <EntitySetMapping Name="Colors">
             <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Colors">
               <MappingFragment StoreEntitySet="Colors">
-                <ScalarProperty Name="ColorId" ColumnName="ColorId" />
-                <ScalarProperty Name="ColorName" ColumnName="ColorName" />
                 <ScalarProperty Name="ColorValue" ColumnName="ColorValue" />
+                <ScalarProperty Name="ColorName" ColumnName="ColorName" />
+                <ScalarProperty Name="ColorId" ColumnName="ColorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupLink">
             <EntityTypeMapping TypeName="TaskMasterTietokantaModel.GroupLink">
               <MappingFragment StoreEntitySet="GroupLink">
-                <ScalarProperty Name="GroupLinkId" ColumnName="GroupLinkId" />
-                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="GroupLinkId" ColumnName="GroupLinkId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Groups">
               <MappingFragment StoreEntitySet="Groups">
-                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Logins">
             <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Logins">
               <MappingFragment StoreEntitySet="Logins">
-                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProjectConnection">
             <EntityTypeMapping TypeName="TaskMasterTietokantaModel.ProjectConnection">
               <MappingFragment StoreEntitySet="ProjectConnection">
-                <ScalarProperty Name="ProjectConnectionId" ColumnName="ProjectConnectionId" />
-                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
+                <ScalarProperty Name="ProjectConnectionId" ColumnName="ProjectConnectionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Projects">
               <MappingFragment StoreEntitySet="Projects">
-                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="ProjectPicture" ColumnName="ProjectPicture" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SprintTemplate">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.SprintTemplate">
-              <MappingFragment StoreEntitySet="SprintTemplate">
-                <ScalarProperty Name="SprintTemplateId" ColumnName="SprintTemplateId" />
-                <ScalarProperty Name="SprintTemplateName" ColumnName="SprintTemplateName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TaskPeople">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.TaskPeople">
-              <MappingFragment StoreEntitySet="TaskPeople">
-                <ScalarProperty Name="TaskPeopleId" ColumnName="TaskPeopleId" />
-                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
-                <ScalarProperty Name="UserGroupLinkId" ColumnName="UserGroupLinkId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TemplateTaskConnection">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.TemplateTaskConnection">
-              <MappingFragment StoreEntitySet="TemplateTaskConnection">
-                <ScalarProperty Name="TemplateConnectionId" ColumnName="TemplateConnectionId" />
-                <ScalarProperty Name="SprintTemplateId" ColumnName="SprintTemplateId" />
-                <ScalarProperty Name="StateId" ColumnName="StateId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserGroupLink">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.UserGroupLink">
-              <MappingFragment StoreEntitySet="UserGroupLink">
-                <ScalarProperty Name="UserGroupLinkId" ColumnName="UserGroupLinkId" />
-                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Users">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="GivenName" ColumnName="GivenName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SprintTemplateConnection">
-            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.SprintTemplateConnection">
-              <MappingFragment StoreEntitySet="SprintTemplateConnection">
-                <ScalarProperty Name="SprintTemplateId" ColumnName="SprintTemplateId" />
-                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
-                <ScalarProperty Name="TemplateConnectionId" ColumnName="TemplateConnectionId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -928,6 +1112,92 @@
                 <ScalarProperty Name="AdminId" ColumnName="AdminId" />
                 <ScalarProperty Name="SprintName" ColumnName="SprintName" />
                 <ScalarProperty Name="SprintId" ColumnName="SprintId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SprintTemplate">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.SprintTemplate">
+              <MappingFragment StoreEntitySet="SprintTemplate">
+                <ScalarProperty Name="SprintTemplateName" ColumnName="SprintTemplateName" />
+                <ScalarProperty Name="SprintTemplateId" ColumnName="SprintTemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SprintTemplateConnection">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.SprintTemplateConnection">
+              <MappingFragment StoreEntitySet="SprintTemplateConnection">
+                <ScalarProperty Name="SprintTemplateId" ColumnName="SprintTemplateId" />
+                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
+                <ScalarProperty Name="TemplateConnectionId" ColumnName="TemplateConnectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskPeople">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.TaskPeople">
+              <MappingFragment StoreEntitySet="TaskPeople">
+                <ScalarProperty Name="UserGroupLinkId" ColumnName="UserGroupLinkId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="TaskPeopleId" ColumnName="TaskPeopleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Tasks">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
+                <ScalarProperty Name="TaskPriority" ColumnName="TaskPriority" />
+                <ScalarProperty Name="TaskPoints" ColumnName="TaskPoints" />
+                <ScalarProperty Name="TaskDescription" ColumnName="TaskDescription" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskState">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.TaskState">
+              <MappingFragment StoreEntitySet="TaskState">
+                <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateTaskConnection">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.TemplateTaskConnection">
+              <MappingFragment StoreEntitySet="TemplateTaskConnection">
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="SprintTemplateId" ColumnName="SprintTemplateId" />
+                <ScalarProperty Name="TemplateConnectionId" ColumnName="TemplateConnectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGroupLink">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.UserGroupLink">
+              <MappingFragment StoreEntitySet="UserGroupLink">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="UserGroupLinkId" ColumnName="UserGroupLinkId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TaskMasterTietokantaModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="GivenName" ColumnName="GivenName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

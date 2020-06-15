@@ -19,6 +19,7 @@ namespace TaskMasterSovellus.Models
         {
             this.ProjectConnection = new HashSet<ProjectConnection>();
             this.SprintTemplateConnection = new HashSet<SprintTemplateConnection>();
+            this.Tasks = new HashSet<Tasks>();
         }
     
         public int SprintId { get; set; }
@@ -36,5 +37,7 @@ namespace TaskMasterSovellus.Models
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SprintTemplateConnection> SprintTemplateConnection { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tasks> Tasks { get; set; }
     }
 }

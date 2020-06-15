@@ -19,8 +19,8 @@ namespace TaskMasterSovellus.Models
         {
             this.Logins = new HashSet<Logins>();
             this.Projects = new HashSet<Projects>();
-            this.UserGroupLink = new HashSet<UserGroupLink>();
             this.Sprints = new HashSet<Sprints>();
+            this.UserGroupLink = new HashSet<UserGroupLink>();
         }
     
         public int UserId { get; set; }
@@ -32,8 +32,8 @@ namespace TaskMasterSovellus.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Projects> Projects { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserGroupLink> UserGroupLink { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sprints> Sprints { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserGroupLink> UserGroupLink { get; set; }
     }
 }
