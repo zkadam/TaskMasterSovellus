@@ -100,31 +100,31 @@ namespace TaskMasterSovellus.Controllers
 
     };
 
-            tasks = tasks.Where(t => t.SprintId == id);
+                tasks = tasks.Where(t => t.SprintId == id);
 
 
 
 
-                        //where kat.Class == 1
+                //where kat.Class == 1
 
 
-                        //var ans = (from sar in context.StorageAreaRacks
-                        //           join sa in context.StorageAreas on sar.StorageAreaId equals sa.Id
-                        //           join sat in context.StorageAreaTypes on sa.StorageAreaTypeId equals sat.Id
-                        //           join r in context.Racks on sar.RackId equals r.Id
-                        //           where !sat.IsManual && r.IsEnabled && !r.IsVirtual
-                        //           select new
-                        //           {
-                        //               sat.Name,
-                        //               sat.Id
-                        //           }).Distinct().ToList();
-
-
-
+                //var ans = (from sar in context.StorageAreaRacks
+                //           join sa in context.StorageAreas on sar.StorageAreaId equals sa.Id
+                //           join sat in context.StorageAreaTypes on sa.StorageAreaTypeId equals sat.Id
+                //           join r in context.Racks on sar.RackId equals r.Id
+                //           where !sat.IsManual && r.IsEnabled && !r.IsVirtual
+                //           select new
+                //           {
+                //               sat.Name,
+                //               sat.Id
+                //           }).Distinct().ToList();
 
 
 
-            return View(tasks.ToList());
+
+
+
+                return View(tasks.ToList());
               
             
             

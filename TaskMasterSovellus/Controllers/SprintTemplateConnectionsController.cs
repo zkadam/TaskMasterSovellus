@@ -17,7 +17,7 @@ namespace TaskMasterSovellus.Controllers
         // GET: SprintTemplateConnections
         public ActionResult Index()
         {
-            var sprintTemplateConnection = db.SprintTemplateConnection.Include(s => s.SprintTemplate).Include(s => s.Sprints);
+            var sprintTemplateConnection = db.SprintTemplateConnection.Include(s => s.Sprints).Include(s => s.SprintTemplate);
             return View(sprintTemplateConnection.ToList());
         }
 
@@ -39,8 +39,8 @@ namespace TaskMasterSovellus.Controllers
         // GET: SprintTemplateConnections/Create
         public ActionResult Create()
         {
-            ViewBag.SprintTemplateId = new SelectList(db.SprintTemplate, "SprintTemplateId", "SprintTemplateName");
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName");
+            ViewBag.SprintTemplateId = new SelectList(db.SprintTemplate, "SprintTemplateId", "SprintTemplateName");
             return View();
         }
 
@@ -58,8 +58,8 @@ namespace TaskMasterSovellus.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.SprintTemplateId = new SelectList(db.SprintTemplate, "SprintTemplateId", "SprintTemplateName", sprintTemplateConnection.SprintTemplateId);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", sprintTemplateConnection.SprintId);
+            ViewBag.SprintTemplateId = new SelectList(db.SprintTemplate, "SprintTemplateId", "SprintTemplateName", sprintTemplateConnection.SprintTemplateId);
             return View(sprintTemplateConnection);
         }
 
@@ -75,8 +75,8 @@ namespace TaskMasterSovellus.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.SprintTemplateId = new SelectList(db.SprintTemplate, "SprintTemplateId", "SprintTemplateName", sprintTemplateConnection.SprintTemplateId);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", sprintTemplateConnection.SprintId);
+            ViewBag.SprintTemplateId = new SelectList(db.SprintTemplate, "SprintTemplateId", "SprintTemplateName", sprintTemplateConnection.SprintTemplateId);
             return View(sprintTemplateConnection);
         }
 
@@ -93,8 +93,8 @@ namespace TaskMasterSovellus.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.SprintTemplateId = new SelectList(db.SprintTemplate, "SprintTemplateId", "SprintTemplateName", sprintTemplateConnection.SprintTemplateId);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", sprintTemplateConnection.SprintId);
+            ViewBag.SprintTemplateId = new SelectList(db.SprintTemplate, "SprintTemplateId", "SprintTemplateName", sprintTemplateConnection.SprintTemplateId);
             return View(sprintTemplateConnection);
         }
 
