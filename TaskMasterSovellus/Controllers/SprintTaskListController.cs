@@ -160,6 +160,7 @@ namespace TaskMasterSovellus.Controllers
             }
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", tasks.SprintId);
             ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
+
             return PartialView("_ModalEdit",tasks);
         }
 
@@ -181,6 +182,35 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
             return PartialView("_ModalEdit", tasks);
         }
+
+        //MODAL TASKS DELETE
+
+        // GET: Tasks/Delete/5
+        public ActionResult _ModalDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Tasks tasks = db.Tasks.Find(id);
+            if (tasks == null)
+            {
+                return HttpNotFound();
+            }
+            return View("_ModalDelete",tasks);
+        }
+
+        // POST: Tasks/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Tasks tasks = db.Tasks.Find(id);
+            db.Tasks.Remove(tasks);
+            db.SaveChanges();
+            return RedirectToAction("SprintTasksList", new { id = tasks.SprintId });
+        }
+
 
 
         protected override void Dispose(bool disposing)
