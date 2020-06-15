@@ -40,37 +40,51 @@ namespace TaskMasterSovellus.Controllers
             }
 
         // action result palauttaa kaikki sprintiin kuuluvia taskeja
-        public ActionResult SprintTasksList(int id)
+        public ActionResult SprintTasksList(int? id)
             {
             //var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users).Include(s => s.SprintTemplate.TemplateTaskConnection.Select(t => t.TaskState.Tasks));
             //    return View(sprints.ToList());
-           
-                if (Session["UserName"] == null)
-                {
-                   
-                       return RedirectToAction("login", "home");
-                }
-                else
-                {
+
+            //if (Session["UserName"] == null)
+            //{
+
+            //       return RedirectToAction("login", "home");
+            //}
+            //else
+            //{
+
+
+
+            if (id==null)
+            {
+                id = 1000;
+            }
 
                 var tasks = from tas in db.Tasks
-                        join tst in db.TaskState on tas.StateId equals tst.StateId /*into tas_tst*/
-                        join ttc in db.TemplateTaskConnection on tst.StateId equals ttc.StateId /*into tas_ttc*/
-                        join cl3 in db.Colors on tst.ColorId equals cl3.ColorId
-                       
-                        join sp in db.Sprints on tas.SprintId equals sp.SprintId
-                            
-                            
-                            
-                            
-                            
-                            join stl in db.SprintTemplate on ttc.SprintTemplateId equals stl.SprintTemplateId
-                        //join stc in db.SprintTemplateConnection on stl.SprintTemplateId equals stc.SprintTemplateId
+                        join tst in db.TaskState.Include(t1=>t1.Colors) on tas.StateId equals tst.StateId
+                            //join cl3 in db.Colors.Include(c=>c.ColorValue) on tst.ColorId equals cl3.ColorId
+                            //where tst.ColorId==cl3.ColorId
+                            //join sp in db.Sprints on tas.SprintId equals sp.SprintId
 
-                        join cl in db.Colors on sp.BackgColor equals cl.ColorId
-                        join cl2 in db.Colors on sp.ProcessColor equals cl2.ColorId
-                        
-                        select new SprintClassList
+
+                            //join stc in db.SprintTemplateConnection on sp.SprintId equals stc.SprintId
+                            //    join stl in db.SprintTemplate on stc.SprintTemplateId equals stl.SprintTemplateId
+
+                            //join ttc in db.TemplateTaskConnection on stl.SprintTemplateId equals ttc.SprintTemplateId /*into tas_ttc*/
+
+
+
+
+
+
+
+
+
+
+                            //join cl in db.Colors on sp.BackgColor equals cl.ColorId
+                            //join cl2 in db.Colors on sp.ProcessColor equals cl2.ColorId
+
+                            select new SprintClassList
                         {
                             TaskId=tas.TaskId,
                             StateId=tas.StateId,
@@ -78,7 +92,7 @@ namespace TaskMasterSovellus.Controllers
                           TaskDescription = (string)tas.TaskDescription,
                             TaskPoints=tas.TaskPoints,
                             TaskPriority=tas.TaskPriority,
-                           SprintId=tas.SprintId,
+                          SprintId=tas.SprintId,
 
 
                             //people connectiontaken out, later when brige to people is built could be included ZA
@@ -88,17 +102,17 @@ namespace TaskMasterSovellus.Controllers
                             //info from task state table ZA
 
                             StateName=(string)tst.StateName,
-                            StateColor= (string)cl3.ColorValue,
-                           TemplateConnectionId =ttc.TemplateConnectionId,
-                           SprintTemplateId=stl.SprintTemplateId,
-                           SprintName=(string)sp.SprintName,
-       
-                            //public Nullable<System.DateTime> StartDate { get; set; }
-                            //public Nullable<System.DateTime> EndDate { get; set; }
-                           BackgColor=(string)cl.ColorValue,
-                            ProcessColor=(string)cl2.ColorValue,
+                                StateColor = (string)tst.Colors.ColorValue,
+                                //TemplateConnectionId =ttc.TemplateConnectionId,
+                                //SprintTemplateId=stl.SprintTemplateId,
+                                //SprintName=(string)sp.SprintName,
 
-    };
+                                //public Nullable<System.DateTime> StartDate { get; set; }
+                                //public Nullable<System.DateTime> EndDate { get; set; }
+                                //BackgColor=(string)cl.ColorValue,
+                                // ProcessColor=(string)cl2.ColorValue,
+
+                            };
 
                 tasks = tasks.Where(t => t.SprintId == id);
 
@@ -129,7 +143,7 @@ namespace TaskMasterSovellus.Controllers
             
             
             }
-                        }
+                        //}
 
     
 

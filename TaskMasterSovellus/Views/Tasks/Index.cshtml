@@ -29,6 +29,7 @@
         <th>
             @Html.DisplayNameFor(model => model.TaskState.StateName)
         </th>
+        
         <th></th>
     </tr>
 
@@ -58,6 +59,7 @@
             @Html.ActionLink("Delete", "Delete", new { id=item.TaskId })
         </td>
     </tr>
+    @*@Html.Raw(item.TaskState.Colors.ColorValue)*@
 }
 
 </table>

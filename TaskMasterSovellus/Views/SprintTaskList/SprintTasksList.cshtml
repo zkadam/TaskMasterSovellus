@@ -21,7 +21,7 @@
         @*<th>@Html.DisplayNameFor(model => model.TemplateConnectionId)</th>*@
         @*<th>@Html.DisplayNameFor(model => model.SprintTemplateId)</th>*@
         @*<th>@Html.DisplayNameFor(model => model.SprintId)</th>*@
-        <th>@Html.DisplayNameFor(model => model.SprintName)</th>
+        @*<th>@Html.DisplayNameFor(model => model.SprintName)</th>*@
         @*<th>@Html.DisplayNameFor(model => model.StartDate)</th>*@
         @*<th>@Html.DisplayNameFor(model => model.EndDate)</th>*@
         @*<th>@Html.DisplayNameFor(model => model.BackgColor)</th>
@@ -35,35 +35,45 @@
 
     @foreach (var item in Model)
     {
+        string bgc = "";
         //string tskcolor = '#' + item.StateColor.ToString();
+        if (string.IsNullOrEmpty(item.StateColor))
+        {
+            bgc = "#b1e8f2";
+        }
+        else
+        {
 
+            bgc = '#' + item.StateColor;
+        }
+       
+            <tr class="sprintrow">
+                <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
+                @*<td>@Html.DisplayFor(modelItem => item.StateId)</td>*@
+                <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
+                <td>@Html.DisplayFor(modelItem => item.TaskDescription)</td>
+                <td>@Html.DisplayFor(modelItem => item.TaskPoints)</td>
+                <td>@Html.DisplayFor(modelItem => item.TaskPriority)</td>
+                <td style="background-color:@Html.Raw(bgc);color:black;font-weight:bold">@Html.DisplayFor(modelItem => item.StateName)</td>
+                @*<td>@Html.DisplayFor(modelItem => item.TemplateConnectionId)</td>*@
+                @*<td>@Html.DisplayFor(modelItem => item.SprintTemplateId)</td>*@
+                @*<td>@Html.DisplayFor(modelItem => item.SprintId)</td>*@
+                @*<td>@Html.DisplayFor(modelItem => item.SprintName)</td>*@
+                @*<td>@Html.DisplayFor(modelItem => item.StartDate)</td>*@
+                @*<td>@Html.DisplayFor(modelItem => item.EndDate)</td>*@
+                @*<td>@Html.DisplayFor(modelItem => item.BackgColor)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProcessColor)</td>*@
 
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
-            @*<td>@Html.DisplayFor(modelItem => item.StateId)</td>*@
-            <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-            <td>@Html.DisplayFor(modelItem => item.TaskDescription)</td>
-            <td>@Html.DisplayFor(modelItem => item.TaskPoints)</td>
-            <td>@Html.DisplayFor(modelItem => item.TaskPriority)</td>
-            @*<td style="background-color:@Html.Raw(tskcolor)">@Html.DisplayFor(modelItem => item.StateName)</td>*@
-            @*<td>@Html.DisplayFor(modelItem => item.TemplateConnectionId)</td>*@
-            @*<td>@Html.DisplayFor(modelItem => item.SprintTemplateId)</td>*@
-            @*<td>@Html.DisplayFor(modelItem => item.SprintId)</td>*@
-            <td>@Html.DisplayFor(modelItem => item.SprintName)</td>
-            @*<td>@Html.DisplayFor(modelItem => item.StartDate)</td>*@
-            @*<td>@Html.DisplayFor(modelItem => item.EndDate)</td>*@
-            @*<td>@Html.DisplayFor(modelItem => item.BackgColor)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProcessColor)</td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.TaskId }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+            
+            }
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.TaskId }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-    }
-
-</table>
+    </table>
 <div>
     @Html.ActionLink("Back", null, null, null, new { href = Request.UrlReferrer })
  
