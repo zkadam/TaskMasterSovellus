@@ -416,6 +416,7 @@
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\SprintTaskList\_ModalEdit.cshtml" />
     <Content Include="Views\SprintTaskList\_ModalDelete.cshtml" />
+    <Content Include="Views\SprintTaskList\_ModalCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

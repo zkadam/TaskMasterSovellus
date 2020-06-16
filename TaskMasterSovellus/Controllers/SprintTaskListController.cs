@@ -19,7 +19,7 @@ namespace TaskMasterSovellus.Controllers
 
 
 
-        //Projekt connection lisk ottaa projektin idn ja näyttää kaikki siihen kuuluvia sprinttejä
+        //-------------------------------------------------Projekt connection lisk ottaa projektin idn ja näyttää kaikki siihen kuuluvia sprinttejä
         public ActionResult SprintsOfPrjekt(int? id)
         {
             if (Session["UserName"] == null)
@@ -39,7 +39,7 @@ namespace TaskMasterSovellus.Controllers
         }
             }
 
-        // action result palauttaa kaikki sprintiin kuuluvia taskeja
+        // ----------------------------------------------------------------action result palauttaa kaikki sprintiin kuuluvia taskeja-----------------------------------------------------------
         public ActionResult SprintTasksList(int? id)
             {
             //var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users).Include(s => s.SprintTemplate.TemplateTaskConnection.Select(t => t.TaskState.Tasks));
@@ -71,17 +71,7 @@ namespace TaskMasterSovellus.Controllers
                             //    join stl in db.SprintTemplate on stc.SprintTemplateId equals stl.SprintTemplateId
 
                             //join ttc in db.TemplateTaskConnection on stl.SprintTemplateId equals ttc.SprintTemplateId /*into tas_ttc*/
-
-
-
-
-
-
-
-
-
-
-                            //join cl in db.Colors on sp.BackgColor equals cl.ColorId
+                              //join cl in db.Colors on sp.BackgColor equals cl.ColorId
                             //join cl2 in db.Colors on sp.ProcessColor equals cl2.ColorId
 
                             select new SprintClassList
@@ -114,25 +104,6 @@ namespace TaskMasterSovellus.Controllers
 
                             };
 
-                //tasks = tasks.Where(t => t.SprintId == id);
-
-
-
-
-                //where kat.Class == 1
-
-
-                //var ans = (from sar in context.StorageAreaRacks
-                //           join sa in context.StorageAreas on sar.StorageAreaId equals sa.Id
-                //           join sat in context.StorageAreaTypes on sa.StorageAreaTypeId equals sat.Id
-                //           join r in context.Racks on sar.RackId equals r.Id
-                //           where !sat.IsManual && r.IsEnabled && !r.IsVirtual
-                //           select new
-                //           {
-                //               sat.Name,
-                //               sat.Id
-                //           }).Distinct().ToList();
-
 
 
 
@@ -146,7 +117,7 @@ namespace TaskMasterSovellus.Controllers
         //}
 
 
-        // GET: Tasks/Edit/5
+        // -----------------------------------------------------------------------Modal Edit-----------------------------------------------------------------------------------------/5
         public ActionResult _ModalEdit(int? id)
         {
             if (id == null)
@@ -183,7 +154,7 @@ namespace TaskMasterSovellus.Controllers
             return PartialView("_ModalEdit", tasks);
         }
 
-        //MODAL TASKS DELETE
+        //--------------------------------------------------------------------------MODAL TASKS DELETE---------------------------------------------------------------------------------
 
         // GET: Tasks/Delete/5
         public ActionResult _ModalDelete(int? id)
@@ -206,13 +177,46 @@ namespace TaskMasterSovellus.Controllers
         public ActionResult _ModalDeleteConfirmed(int id)
         {
             Tasks tasks = db.Tasks.Find(id);
+
+            //tallenetaan sprintidn että pystymmä sprintin task listaan palauttaa
             int? sprintId = tasks.SprintId;
             db.Tasks.Remove(tasks);
             db.SaveChanges();
-            return RedirectToAction("SprintTasksList", new { id = sprintId });
+            //palataan sprintiin sprintid parametrin avulla
+
+            return RedirectToAction("SprintTasksList","", new { id = sprintId });
         }
 
+        //--------------------------------------------------------------------------MODAL  NEW TASK---------------------------------------------------------------------------------
+        // GET: Tasks/Create
+        public ActionResult _ModalCreate()
+        {
+            ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName");
+            ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName");
+            return PartialView();
+        }
 
+        // POST: Tasks/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _ModalCreate([Bind(Include = "TaskId,StateId,TaskName,TaskDescription,TaskPoints,TaskPriority,SprintId")] Tasks tasks)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Tasks.Add(tasks);
+                //tallenetaan sprintidn että pystymmä sprintin task listaan palauttaa
+                int? sprintId = tasks.SprintId;
+                db.SaveChanges();
+                //palataan sprintiin sprintid parametrin avulla
+                return RedirectToAction("SprintTasksList", "SprintTaskList", new { id = sprintId });
+            }
+
+            ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", tasks.SprintId);
+            ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
+            return View(tasks);
+        }
 
         protected override void Dispose(bool disposing)
             {

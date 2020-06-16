@@ -7,7 +7,8 @@
 
 @section scripts {
     <script type="text/javascript">
-//script modaleditin avaamiseen
+        //-------------------------------------------------------------modal edit task-----------------------------------------------------------
+
         $(function () {
             $(".getTaskId").click(function () {
                 let taskId = $(this).data("taskid");
@@ -27,6 +28,7 @@
 
         });
 
+                //-------------------------------------------------------------modal delete task-----------------------------------------------------------
 
         $(function () {
             $(".getTaskId2").click(function () {
@@ -36,6 +38,25 @@
                 console.log(url);
 
                 $("#taskEdit").append(" <b>Opening task edit window for task: " + taskId + ".</b>");
+                //gettinng the view to the div
+                var $detailDivEdit = $("#taskEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $('#ModalTaskEdit').modal('show');
+                });
+
+            });
+
+        });
+        //-------------------------------------------------------------modal new task-----------------------------------------------------------
+        $(function () {
+            $(".getTaskId3").click(function () {
+                let taskId = $(this).data("taskid");
+                //console.log("clicked on task: " + taskId);
+                var url = "/SprintTaskList/_ModalCreate";
+                console.log(url);
+
+                $("#taskEdit").append(" <b>Opening new task window for sprint: " + taskId + ".</b>");
                 //gettinng the view to the div
                 var $detailDivEdit = $("#taskEdit");
                 $.get(url, function (data) {
@@ -124,8 +145,7 @@
         <a class="getTaskId" data-taskid="@item.TaskId">Edit</a> |
         <a class="getTaskId2" data-taskid="@item.TaskId">Delete</a> |
 
-        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+       
     </td>
 </tr>
 
@@ -133,6 +153,9 @@
 
 </table>
 <div>
+    @*taking first model item's sprint id to be the taskid cause when we add new task we need the sprint's id where we add the task*@ 
+    <a class="getTaskId3 btn btn-info" data-taskid="@Model.First().SprintId">Add new task</a> |
+
     @Html.ActionLink("Back", null, null, null, new { href = Request.UrlReferrer })
 
 
