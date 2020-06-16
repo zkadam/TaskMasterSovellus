@@ -35,7 +35,9 @@ table {
     background-color: #181f4f;
     color: white !important;
 }
-
+tr:first-child {
+    background-color: #3268a8;
+}
 a {
     color: #0b4d31
 }

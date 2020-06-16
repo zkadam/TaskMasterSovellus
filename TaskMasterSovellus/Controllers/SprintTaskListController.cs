@@ -34,7 +34,8 @@ namespace TaskMasterSovellus.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var projectConnection = db.ProjectConnection.Include(p => p.Projects).Include(p => p.Sprints).Where(p=>p.ProjectId==id);
-
+                //project idn laitetaan sessioniin että pystyy käyttää backpainiketta
+                Session["CurrentProject"] = id;
             return View(projectConnection.ToList());
         }
             }
@@ -62,19 +63,20 @@ namespace TaskMasterSovellus.Controllers
 
             var tasks = from tas in db.Tasks.Where(a=>a.SprintId==id)
                         join tst in db.TaskState.Include(t1=>t1.Colors) on tas.StateId equals tst.StateId
-                            //join cl3 in db.Colors.Include(c=>c.ColorValue) on tst.ColorId equals cl3.ColorId
-                            //where tst.ColorId==cl3.ColorId
-                            //join sp in db.Sprints on tas.SprintId equals sp.SprintId
+
+                        //join cl3 in db.Colors.Include(c=>c.ColorValue) on tst.ColorId equals cl3.ColorId
+                        //where tst.ColorId==cl3.ColorId
+                        join sp in db.Sprints on tas.SprintId equals sp.SprintId
 
 
-                            //join stc in db.SprintTemplateConnection on sp.SprintId equals stc.SprintId
-                            //    join stl in db.SprintTemplate on stc.SprintTemplateId equals stl.SprintTemplateId
+                        //join stc in db.SprintTemplateConnection on sp.SprintId equals stc.SprintId
+                        //    join stl in db.SprintTemplate on stc.SprintTemplateId equals stl.SprintTemplateId
 
-                            //join ttc in db.TemplateTaskConnection on stl.SprintTemplateId equals ttc.SprintTemplateId /*into tas_ttc*/
-                              //join cl in db.Colors on sp.BackgColor equals cl.ColorId
-                            //join cl2 in db.Colors on sp.ProcessColor equals cl2.ColorId
+                        //join ttc in db.TemplateTaskConnection on stl.SprintTemplateId equals ttc.SprintTemplateId /*into tas_ttc*/
+                        //join cl in db.Colors on sp.BackgColor equals cl.ColorId
+                        //join cl2 in db.Colors on sp.ProcessColor equals cl2.ColorId
 
-                            select new SprintClassList
+                        select new SprintClassList
                         {
                             TaskId=tas.TaskId,
                             StateId=tas.StateId,
@@ -93,16 +95,16 @@ namespace TaskMasterSovellus.Controllers
 
                             StateName=(string)tst.StateName,
                                 StateColor = (string)tst.Colors.ColorValue,
-                                //TemplateConnectionId =ttc.TemplateConnectionId,
-                                //SprintTemplateId=stl.SprintTemplateId,
-                                //SprintName=(string)sp.SprintName,
+                            //TemplateConnectionId =ttc.TemplateConnectionId,
+                            //SprintTemplateId=stl.SprintTemplateId,
+                            SprintName = (string)sp.SprintName,
 
-                                //public Nullable<System.DateTime> StartDate { get; set; }
-                                //public Nullable<System.DateTime> EndDate { get; set; }
-                                //BackgColor=(string)cl.ColorValue,
-                                // ProcessColor=(string)cl2.ColorValue,
+                            //public Nullable<System.DateTime> StartDate { get; set; }
+                            //public Nullable<System.DateTime> EndDate { get; set; }
+                            //BackgColor=(string)cl.ColorValue,
+                            // ProcessColor=(string)cl2.ColorValue,
 
-                            };
+                        };
 
 
 
@@ -189,10 +191,11 @@ namespace TaskMasterSovellus.Controllers
 
         //--------------------------------------------------------------------------MODAL  NEW TASK---------------------------------------------------------------------------------
         // GET: Tasks/Create
-        public ActionResult _ModalCreate()
+        public ActionResult _ModalCreate(int? sprintId)
         {
-            ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName");
+            ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", sprintId);
             ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName");
+            ViewBag.BackSprint = sprintId;
             return PartialView();
         }
 
@@ -215,7 +218,7 @@ namespace TaskMasterSovellus.Controllers
 
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", tasks.SprintId);
             ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
-            return View(tasks);
+            return PartialView("_ModalCreate", tasks);
         }
 
         protected override void Dispose(bool disposing)

@@ -27,7 +27,7 @@ namespace TaskMasterSovellus.ViewModels
         //public int TemplateConnectionId { get; set; }
         //public int SprintTemplateId { get; set; }
 
-        //public string SprintName { get; set; }
+        public string SprintName { get; set; }
         ////public Nullable<int> AdminId { get; set; }
         //public Nullable<System.DateTime> StartDate { get; set; }
         //public Nullable<System.DateTime> EndDate { get; set; }

@@ -37,9 +37,9 @@ namespace TaskMasterSovellus.Controllers
         }
 
         // GET: ProjectConnections/Create
-        public ActionResult Create()
+        public ActionResult Create(int? selectedProject)
         {
-            ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName");
+            ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", selectedProject);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName");
             return View();
         }

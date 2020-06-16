@@ -4,16 +4,14 @@
     ViewBag.Title = "SprintsOfPrjekt";
 }
 
-<h2>Sprints Of Project</h2>
+    <h2>Project :@Model.First().Projects.ProjectName</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div>
+    <a href="@Url.Action("Create","ProjectConnections",new { selectedProject = Session["CurrentProject"] },null)" class="btn btn-success">Add new sprint to project</a>
+
+ </div>  
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Projects.ProjectName)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Sprints.SprintName)
         </th>
@@ -23,9 +21,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Projects.ProjectName)
-            </td>
+   
             <td>
                 @Html.DisplayFor(modelItem => item.Sprints.SprintName)
             </td>

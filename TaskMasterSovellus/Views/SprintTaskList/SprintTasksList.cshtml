@@ -53,7 +53,7 @@
             $(".getTaskId3").click(function () {
                 let taskId = $(this).data("taskid");
                 //console.log("clicked on task: " + taskId);
-                var url = "/SprintTaskList/_ModalCreate";
+                var url = "/SprintTaskList/_ModalCreate/?sprintId=" + taskId;
                 console.log(url);
 
                 $("#taskEdit").append(" <b>Opening new task window for sprint: " + taskId + ".</b>");
@@ -75,11 +75,9 @@
 
 
 
-<h2>SprintTasksLit</h2>
+<h2> @Model.First().SprintName</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 
 @*divi johon sijoitetaan editin*@
 <div id="taskEdit"></div>
@@ -139,11 +137,11 @@
     @*<td>@Html.DisplayFor(modelItem => item.BackgColor)</td>
         <td>@Html.DisplayFor(modelItem => item.ProcessColor)</td>*@
 
-    <td></td>
+    
     <td>
         @*@Html.ActionLink("Edit", "Edit", new { id = item.TaskId }) |*@
         <a class="getTaskId" data-taskid="@item.TaskId">Edit</a> |
-        <a class="getTaskId2" data-taskid="@item.TaskId">Delete</a> |
+        <a class="getTaskId2" data-taskid="@item.TaskId">Delete</a> 
 
        
     </td>
@@ -153,10 +151,11 @@
 
 </table>
 <div>
-    @*taking first model item's sprint id to be the taskid cause when we add new task we need the sprint's id where we add the task*@ 
-    <a class="getTaskId3 btn btn-info" data-taskid="@Model.First().SprintId">Add new task</a> |
+    @*taking first model item's sprint id to be the taskid cause when we add new task we need the sprint's id where we add the task*@
+    <a style="color:white;" class="getTaskId3 btn btn-success" data-taskid="@Model.First().SprintId">Add new task</a> |
+   
+    @Html.ActionLink("Back", "SprintsOfPrjekt", "SprintTaskList", new { id = Session["CurrentProject"] }, null)
 
-    @Html.ActionLink("Back", null, null, null, new { href = Request.UrlReferrer })
 
 
 </div>
