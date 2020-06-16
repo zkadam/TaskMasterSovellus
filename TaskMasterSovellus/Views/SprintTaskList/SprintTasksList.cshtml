@@ -28,7 +28,24 @@
         });
 
 
+        $(function () {
+            $(".getTaskId2").click(function () {
+                let taskId = $(this).data("taskid");
+                console.log("clicked on task: " + taskId);
+                var url = "/SprintTaskList/_ModalDelete/?id=" + taskId;
+                console.log(url);
 
+                $("#taskEdit").append(" <b>Opening task edit window for task: " + taskId + ".</b>");
+                //gettinng the view to the div
+                var $detailDivEdit = $("#taskEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $('#ModalTaskEdit').modal('show');
+                });
+
+            });
+
+        });
 
     </script>
 
@@ -105,6 +122,8 @@
     <td>
         @*@Html.ActionLink("Edit", "Edit", new { id = item.TaskId }) |*@
         <a class="getTaskId" data-taskid="@item.TaskId">Edit</a> |
+        <a class="getTaskId2" data-taskid="@item.TaskId">Delete</a> |
+
         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
     </td>

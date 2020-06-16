@@ -55,12 +55,12 @@ namespace TaskMasterSovellus.Controllers
 
 
 
-            //if (id==null)
-            //{
-            //    id = 1000;
-            //}
+            if (id == null)
+            {
+                return RedirectToAction("SprintsOfPrjekt", "SprintTaskList");
+            }
 
-                var tasks = from tas in db.Tasks.Where(a=>a.SprintId==id)
+            var tasks = from tas in db.Tasks.Where(a=>a.SprintId==id)
                         join tst in db.TaskState.Include(t1=>t1.Colors) on tas.StateId equals tst.StateId
                             //join cl3 in db.Colors.Include(c=>c.ColorValue) on tst.ColorId equals cl3.ColorId
                             //where tst.ColorId==cl3.ColorId
@@ -197,18 +197,19 @@ namespace TaskMasterSovellus.Controllers
             {
                 return HttpNotFound();
             }
-            return View("_ModalDelete",tasks);
+            return PartialView("_ModalDelete",tasks);
         }
 
         // POST: Tasks/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("_ModalDelete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult _ModalDeleteConfirmed(int id)
         {
             Tasks tasks = db.Tasks.Find(id);
+            int? sprintId = tasks.SprintId;
             db.Tasks.Remove(tasks);
             db.SaveChanges();
-            return RedirectToAction("SprintTasksList", new { id = tasks.SprintId });
+            return RedirectToAction("SprintTasksList", new { id = sprintId });
         }
 
 
