@@ -19,12 +19,12 @@ namespace TaskMasterSovellus.Controllers
 
 
 
-        //-------------------------------------------------Projekt connection lisk ottaa projektin idn ja näyttää kaikki siihen kuuluvia sprinttejä
+        //-------------------------------------------------Projekt connection list ottaa projektin idn ja näyttää kaikki siihen kuuluvia sprinttejä
         public ActionResult SprintsOfPrjekt(int? id)
         {
             if (Session["UserName"] == null)
             {
-               return RedirectToAction("login", "home");
+               return RedirectToAction("index", "home");
             }
             else
             {
@@ -36,12 +36,23 @@ namespace TaskMasterSovellus.Controllers
             var projectConnection = db.ProjectConnection.Include(p => p.Projects).Include(p => p.Sprints).Where(p=>p.ProjectId==id);
                 //project idn laitetaan sessioniin että pystyy käyttää backpainiketta
                 Session["CurrentProject"] = id;
-            return View(projectConnection.ToList());
+
+                //sending a viewbag element so we can use first element for header, but with checking viewbag in view , program wont crash on null objects ZA
+                if (projectConnection.ToList().Count>0)
+                {
+                    ViewBag.projectCount = projectConnection.ToList().Count();
+                }
+                else
+                {
+                    ViewBag.projectCount = 0;
+
+                }
+                return View(projectConnection.ToList());
         }
             }
 
         // ----------------------------------------------------------------action result palauttaa kaikki sprintiin kuuluvia taskeja-----------------------------------------------------------
-        public ActionResult SprintTasksList(int? id)
+        public ActionResult SprintTasksList(int? id, string sprintname)
             {
             //var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users).Include(s => s.SprintTemplate.TemplateTaskConnection.Select(t => t.TaskState.Tasks));
             //    return View(sprints.ToList());
@@ -55,6 +66,9 @@ namespace TaskMasterSovellus.Controllers
             //{
 
 
+
+            ViewBag.SprintName = sprintname;
+            ViewBag.SprintId = id;
 
             if (id == null)
             {
@@ -106,12 +120,10 @@ namespace TaskMasterSovellus.Controllers
 
                         };
 
+            
+            
 
-
-
-
-
-                return View(tasks.ToList());
+            return View(tasks.ToList());
               
             
             
@@ -186,7 +198,7 @@ namespace TaskMasterSovellus.Controllers
             db.SaveChanges();
             //palataan sprintiin sprintid parametrin avulla
 
-            return RedirectToAction("SprintTasksList","", new { id = sprintId });
+            return RedirectToAction("SprintTasksList", "SprintTaskList", new { id = sprintId });
         }
 
         //--------------------------------------------------------------------------MODAL  NEW TASK---------------------------------------------------------------------------------

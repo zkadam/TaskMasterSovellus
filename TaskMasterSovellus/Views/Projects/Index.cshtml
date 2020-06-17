@@ -4,16 +4,43 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Projects</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+
+<div>
+    <a href="@Url.Action("Create","Projects")" class="btn btn-success">Create new project</a>
+    <hr>
+</div>
+@*card column of bootstrap*@
+<div class="card-columns">
+
+    @foreach (var item in Model)
+    {
+
+        <div class="card" style="color: white; background-color: #181f4f">
+            <div class="card-body text-center">
+                <h4 class="card-title">@Html.DisplayFor(modelItem => item.ProjectName)</h4>
+                
+                @Html.ActionLink("View sprints of project", "SprintsOfPrjekt", "SprintTaskList", new { id = item.ProjectId }, new { @class = "btn btn-outline-info" }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }, new { @class = "btn btn-outline-info" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProjectId }, new { @class = "btn btn-outline-info" })
+            </div>
+        </div>
+    }
+    </div>
+
+
+
+ 
+
+@*<p>
+        @Html.ActionLink("Create New Project", "Create")
+    </p>*@
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ProjectName)
-        </th>
+        </th>*@
         @*<th>
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
@@ -23,7 +50,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ProjectPicture)
             </th>*@
-        <th>
+        @*<th>
             Admin name
         </th>
         <th></th>
@@ -34,7 +61,7 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
+            </td>*@
             @*<td>
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
@@ -44,7 +71,7 @@
             @*<td>
                     @Html.DisplayFor(modelItem => item.ProjectPicture)
                 </td>*@
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Users.GivenName)
                 @Html.DisplayFor(modelItem => item.Users.Surname)
             </td>
@@ -56,4 +83,4 @@
         </tr>
     }
 
-</table>
+</table>*@

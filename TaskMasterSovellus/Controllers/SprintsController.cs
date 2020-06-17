@@ -15,26 +15,13 @@ namespace TaskMasterSovellus.Controllers
         private TaskMasterTietokantaEntities db = new TaskMasterTietokantaEntities();
 
         // GET: Sprints
-        public ActionResult Index()
-        {
-            var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users);
-            return View(sprints.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users);
+        //    return View(sprints.ToList());
+        //}
 
-        // GET: Sprints/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Sprints sprints = db.Sprints.Find(id);
-            if (sprints == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sprints);
-        }
+
 
         // GET: Sprints/Create
         public ActionResult Create()
@@ -54,9 +41,10 @@ namespace TaskMasterSovellus.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var param = Session["CurrentProject"];
                 db.Sprints.Add(sprints);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", "ProjectConnections", new { selectedProject = Session["CurrentProject"], selectedSprint= sprints.SprintId});
             }
 
             ViewBag.BackgColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.BackgColor);

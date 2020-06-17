@@ -75,7 +75,7 @@
 
 
 
-<h2> @Model.First().SprintName</h2>
+<h2> @ViewBag.SprintName</h2>
 
 
 
@@ -152,7 +152,7 @@
 </table>
 <div>
     @*taking first model item's sprint id to be the taskid cause when we add new task we need the sprint's id where we add the task*@
-    <a style="color:white;" class="getTaskId3 btn btn-success" data-taskid="@Model.First().SprintId">Add new task</a> |
+    <a style="color:white;" class="getTaskId3 btn btn-success" data-taskid="@ViewBag.SprintId">Add new task</a> |
    
     @Html.ActionLink("Back", "SprintsOfPrjekt", "SprintTaskList", new { id = Session["CurrentProject"] }, null)
 

@@ -3,41 +3,69 @@
 @{
     ViewBag.Title = "SprintsOfPrjekt";
 }
+@if (ViewBag.projectCount == 0)
+{
+    <h2>Project : no sprint yet for this project</h2>
+}
+else
+{
+    <h2>Project :@Model.FirstOrDefault().Projects.ProjectName</h2>
 
-    <h2>Project :@Model.First().Projects.ProjectName</h2>
+}
 
 <div>
     <a href="@Url.Action("Create","ProjectConnections",new { selectedProject = Session["CurrentProject"] },null)" class="btn btn-success">Add new sprint to project</a>
+    <a href="@Url.Action("Create","Sprints",new { selectedProject = Session["CurrentProject"] },null)" class="btn btn-success">Create a new sprint</a>
+    <hr>
+</div>
 
- </div>  
-<table class="table">
+@*card column of bootstrap*@
+<div class="card-columns">
 
-        <th>
-            @Html.DisplayNameFor(model => model.Sprints.SprintName)
-        </th>
-        <th></th>
+    @foreach (var item in Model)
+    {
+
+        <div class="card" style="color: white; background-color: #181f4f">
+            <div class="card-body text-center">
+                <h4 class="card-title">
+                    @Html.DisplayFor(modelItem => item.Sprints.SprintName)
+                </h4>
+
+                @Html.ActionLink("view sprint tasks", "SprintTasksList", "SprintTaskList", new { id = item.SprintId, sprintname = item.Sprints.SprintName }, new { @class = "btn btn-outline-info" }) |
+                @Html.ActionLink("Edit", "Edit", "ProjectConnections", new { id = item.ProjectConnectionId }, new { @class = "btn btn-outline-info" }) |
+                @Html.ActionLink("Delete", "Delete", "ProjectConnections", new { id = item.ProjectConnectionId }, new { @class = "btn btn-outline-info" })
+            </div>
+        </div>
+    }
+</div>
+@*<table class="table">
+
+    <th>
+        @Html.DisplayNameFor(model => model.Sprints.SprintName)
+    </th>
+    <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-   
+
             <td>
                 @Html.DisplayFor(modelItem => item.Sprints.SprintName)
             </td>
-            <td>
-                @Html.ActionLink("view sprint tasks", "SprintTasksList", "SprintTaskList", new { id = item.SprintId }, null) |
+            <td>*@
+                @*@Html.ActionLink("view sprint tasks", "SprintTasksList", "SprintTaskList", new { id = item.SprintId, sprintname = item.Sprints.SprintName }, null) |
                 @Html.ActionLink("Edit", "Edit", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |
-                @Html.ActionLink("Delete", "Delete", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |
+                @Html.ActionLink("Delete", "Delete", "ProjectConnections", new { id = item.ProjectConnectionId }, null) |*@
 
 
-            </td>
+            @*</td>
         </tr>
     }
 
-</table>
+</table>*@
 <div>
-    @Html.ActionLink("Back to Projects","Index", "Projects")
+    @Html.ActionLink("Back to Projects", "Index", "Projects")
 
 
 

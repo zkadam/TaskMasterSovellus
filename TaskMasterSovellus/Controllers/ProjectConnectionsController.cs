@@ -37,10 +37,21 @@ namespace TaskMasterSovellus.Controllers
         }
 
         // GET: ProjectConnections/Create
-        public ActionResult Create(int? selectedProject)
+        public ActionResult Create(int? selectedProject, int? selectedSprint)
+
         {
+            //seuraava kaks tarkastus tsekkaa tuliko parametri jota käytätään select listojen selected optionina
+            //jos ei tullut parametri, niin laitetaan eka sprint/projekti selected elementiksi
+           if (selectedSprint==null)
+	        {
+                selectedSprint = db.Sprints.FirstOrDefault().SprintId;
+	        }
+            if (selectedProject == null)
+            {
+                selectedProject = db.Projects.FirstOrDefault().ProjectId;
+            }
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", selectedProject);
-            ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName");
+            ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", selectedSprint);
             return View();
         }
 
