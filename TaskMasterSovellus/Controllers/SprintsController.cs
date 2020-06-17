@@ -82,7 +82,8 @@ namespace TaskMasterSovellus.Controllers
             {
                 db.Entry(sprints).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("SprintsOfPrjekt", "SprintTaskList", new { id = Session["CurrentProject"]});
+
             }
             ViewBag.BackgColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.BackgColor);
             ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.ProcessColor);

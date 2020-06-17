@@ -43,6 +43,14 @@ a {
 }
 
 
+/*save button color-profile properties
+*/
+.btnSave {
+    background-color: #276811;
+    border-color: #276811;
+    Color:white;
+}
+
 
 /*actionlinkien väri muuttuu tauluissa contrastin takia ZA
 */

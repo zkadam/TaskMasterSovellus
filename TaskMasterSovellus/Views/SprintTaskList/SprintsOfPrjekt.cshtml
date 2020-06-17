@@ -32,8 +32,11 @@ else
                 </h4>
 
                 @Html.ActionLink("view sprint tasks", "SprintTasksList", "SprintTaskList", new { id = item.SprintId, sprintname = item.Sprints.SprintName }, new { @class = "btn btn-outline-info" }) |
-                @Html.ActionLink("Edit", "Edit", "ProjectConnections", new { id = item.ProjectConnectionId }, new { @class = "btn btn-outline-info" }) |
-                @Html.ActionLink("Delete", "Delete", "ProjectConnections", new { id = item.ProjectConnectionId }, new { @class = "btn btn-outline-info" })
+                @Html.ActionLink("Edit sprint", "Edit", "Sprints", new { id = item.SprintId }, new { @class = "btn btn-outline-info" }) |
+
+                @*@Html.ActionLink("Edit", "Edit", "ProjectConnections", new { id = item.ProjectConnectionId }, new { @class = "btn btn-outline-info" }) |*@
+
+                @Html.ActionLink("Remove from project", "Delete", "ProjectConnections", new { id = item.ProjectConnectionId }, new { @class = "btn btn-outline-info" })
             </div>
         </div>
     }
