@@ -28,7 +28,7 @@
 
         });
 
-                //-------------------------------------------------------------modal delete task-----------------------------------------------------------
+        //-------------------------------------------------------------modal delete task-----------------------------------------------------------
 
         $(function () {
             $(".getTaskId2").click(function () {
@@ -74,8 +74,16 @@
 
 
 
+<div class="d-flex ">
+    <div class="p-2 mr-auto text-black"><h2> @ViewBag.SprintName</h2></div>
+    <div class="p-2 bg-danger text-white"> Task points all together: @ViewBag.TaskSum</div>
+    <div class="p-2 bg-success text-white">Done task's points: @ViewBag.DoneSum</div>
+    <div class="p-2 bg-warning text-white">Task points left:@ViewBag.TaskLeft</div>
+</div>
 
-<h2> @ViewBag.SprintName</h2>
+
+
+
 
 
 
@@ -120,32 +128,32 @@
             bgc = '#' + item.StateColor;
         }
 
-<tr class="sprintrow">
-    <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
-    @*<td>@Html.DisplayFor(modelItem => item.StateId)</td>*@
-    <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-    <td>@Html.DisplayFor(modelItem => item.TaskDescription)</td>
-    <td>@Html.DisplayFor(modelItem => item.TaskPoints)</td>
-    <td>@Html.DisplayFor(modelItem => item.TaskPriority)</td>
-    <td style="background-color:@Html.Raw(bgc);color:black;font-weight:bold">@Html.DisplayFor(modelItem => item.StateName)</td>
-    @*<td>@Html.DisplayFor(modelItem => item.TemplateConnectionId)</td>*@
-    @*<td>@Html.DisplayFor(modelItem => item.SprintTemplateId)</td>*@
-    @*<td>@Html.DisplayFor(modelItem => item.SprintId)</td>*@
-    @*<td>@Html.DisplayFor(modelItem => item.SprintName)</td>*@
-    @*<td>@Html.DisplayFor(modelItem => item.StartDate)</td>*@
-    @*<td>@Html.DisplayFor(modelItem => item.EndDate)</td>*@
-    @*<td>@Html.DisplayFor(modelItem => item.BackgColor)</td>
-        <td>@Html.DisplayFor(modelItem => item.ProcessColor)</td>*@
+        <tr class="sprintrow">
+            <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
+            @*<td>@Html.DisplayFor(modelItem => item.StateId)</td>*@
+            <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
+            <td>@Html.DisplayFor(modelItem => item.TaskDescription)</td>
+            <td>@Html.DisplayFor(modelItem => item.TaskPoints)</td>
+            <td>@Html.DisplayFor(modelItem => item.TaskPriority)</td>
+            <td style="background-color:@Html.Raw(bgc);color:black;font-weight:bold">@Html.DisplayFor(modelItem => item.StateName)</td>
+            @*<td>@Html.DisplayFor(modelItem => item.TemplateConnectionId)</td>*@
+            @*<td>@Html.DisplayFor(modelItem => item.SprintTemplateId)</td>*@
+            @*<td>@Html.DisplayFor(modelItem => item.SprintId)</td>*@
+            @*<td>@Html.DisplayFor(modelItem => item.SprintName)</td>*@
+            @*<td>@Html.DisplayFor(modelItem => item.StartDate)</td>*@
+            @*<td>@Html.DisplayFor(modelItem => item.EndDate)</td>*@
+            @*<td>@Html.DisplayFor(modelItem => item.BackgColor)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProcessColor)</td>*@
 
-    
-    <td>
-        @*@Html.ActionLink("Edit", "Edit", new { id = item.TaskId }) |*@
-        <a class="getTaskId" data-taskid="@item.TaskId">Edit</a> |
-        <a class="getTaskId2" data-taskid="@item.TaskId">Delete</a> 
 
-       
-    </td>
-</tr>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.TaskId }) |*@
+                <a class="getTaskId" data-taskid="@item.TaskId">Edit</a> |
+                <a class="getTaskId2" data-taskid="@item.TaskId">Delete</a>
+
+
+            </td>
+        </tr>
 
     }
 
@@ -153,7 +161,7 @@
 <div>
     @*taking first model item's sprint id to be the taskid cause when we add new task we need the sprint's id where we add the task*@
     <a style="color:white;" class="getTaskId3 btn btn-success" data-taskid="@ViewBag.SprintId">Add new task</a> |
-   
+
     @Html.ActionLink("Back", "SprintsOfPrjekt", "SprintTaskList", new { id = Session["CurrentProject"] }, null)
 
 

@@ -54,20 +54,19 @@ namespace TaskMasterSovellus.Controllers
         // ----------------------------------------------------------------action result palauttaa kaikki sprintiin kuuluvia taskeja-----------------------------------------------------------
         public ActionResult SprintTasksList(int? id, string sprintname)
             {
-            //var sprints = db.Sprints.Include(s => s.Colors).Include(s => s.Colors1).Include(s => s.Users).Include(s => s.SprintTemplate.TemplateTaskConnection.Select(t => t.TaskState.Tasks));
-            //    return View(sprints.ToList());
-
-            //if (Session["UserName"] == null)
-            //{
-
-            //       return RedirectToAction("login", "home");
-            //}
-            //else
-            //{
 
 
+            if (Session["UserName"] == null)
+            {
 
-            ViewBag.SprintName = sprintname;
+                return RedirectToAction("login", "home");
+            }
+            else
+            {
+
+
+
+                ViewBag.SprintName = sprintname;
             ViewBag.SprintId = id;
 
             if (id == null)
@@ -120,15 +119,20 @@ namespace TaskMasterSovellus.Controllers
 
                         };
 
-            
-            
+                //double ordering so tasks come by they state and then by priority order
+                //tasks = tasks.OrderBy(state => state.TaskId).ThenBy(state => state.TaskPriority);
+                tasks = tasks.OrderBy(state => state.StateId).ThenBy(state => state.TaskPriority);
 
-            return View(tasks.ToList());
+                ViewBag.TaskSum =tasks.Sum(s=>s.TaskPoints);
+                ViewBag.DoneSum = tasks.Where(td => td.StateId == 1003).Sum(td => td.TaskPoints);
+                ViewBag.TaskLeft = tasks.Sum(s => s.TaskPoints) - tasks.Where(td => td.StateId == 1003).Sum(td => td.TaskPoints);
+
+                return View(tasks.ToList());
               
             
             
             }
-        //}
+        }
 
 
         // -----------------------------------------------------------------------Modal Edit-----------------------------------------------------------------------------------------/5
