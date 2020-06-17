@@ -24,10 +24,12 @@ namespace TaskMasterSovellus.Controllers
         {
             if (Session["UserName"] == null)
             {
-               return RedirectToAction("index", "home");
+                return RedirectToAction("index", "home");
             }
             else
             {
+
+           
 
                 if (id == null)
             {
@@ -138,6 +140,13 @@ namespace TaskMasterSovellus.Controllers
         // -----------------------------------------------------------------------Modal Edit-----------------------------------------------------------------------------------------/5
         public ActionResult _ModalEdit(int? id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -151,6 +160,7 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
 
             return PartialView("_ModalEdit",tasks);
+            }
         }
 
         // POST: Tasks/Edit/5
@@ -160,6 +170,13 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult _ModalEdit([Bind(Include = "TaskId,StateId,TaskName,TaskDescription,TaskPoints,TaskPriority,SprintId")] Tasks tasks)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (ModelState.IsValid)
             {
                 db.Entry(tasks).State = EntityState.Modified;
@@ -170,6 +187,7 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", tasks.SprintId);
             ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
             return PartialView("_ModalEdit", tasks);
+            }
         }
 
         //--------------------------------------------------------------------------MODAL TASKS DELETE---------------------------------------------------------------------------------
@@ -177,6 +195,13 @@ namespace TaskMasterSovellus.Controllers
         // GET: Tasks/Delete/5
         public ActionResult _ModalDelete(int? id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -187,6 +212,7 @@ namespace TaskMasterSovellus.Controllers
                 return HttpNotFound();
             }
             return PartialView("_ModalDelete",tasks);
+            }
         }
 
         // POST: Tasks/Delete/5
@@ -194,6 +220,13 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult _ModalDeleteConfirmed(int id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             Tasks tasks = db.Tasks.Find(id);
 
             //tallenetaan sprintidn että pystymmä sprintin task listaan palauttaa
@@ -203,16 +236,25 @@ namespace TaskMasterSovellus.Controllers
             //palataan sprintiin sprintid parametrin avulla
 
             return RedirectToAction("SprintTasksList", "SprintTaskList", new { id = sprintId });
+            }
         }
 
         //--------------------------------------------------------------------------MODAL  NEW TASK---------------------------------------------------------------------------------
         // GET: Tasks/Create
         public ActionResult _ModalCreate(int? sprintId)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", sprintId);
             ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName");
             ViewBag.BackSprint = sprintId;
             return PartialView();
+
+            }
         }
 
         // POST: Tasks/Create
@@ -222,6 +264,13 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult _ModalCreate([Bind(Include = "TaskId,StateId,TaskName,TaskDescription,TaskPoints,TaskPriority,SprintId")] Tasks tasks)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (ModelState.IsValid)
             {
                 db.Tasks.Add(tasks);
@@ -235,6 +284,7 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", tasks.SprintId);
             ViewBag.StateId = new SelectList(db.TaskState, "StateId", "StateName", tasks.StateId);
             return PartialView("_ModalCreate", tasks);
+            }
         }
 
         protected override void Dispose(bool disposing)

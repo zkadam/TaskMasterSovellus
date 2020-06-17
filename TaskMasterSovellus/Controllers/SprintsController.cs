@@ -26,10 +26,18 @@ namespace TaskMasterSovellus.Controllers
         // GET: Sprints/Create
         public ActionResult Create()
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             ViewBag.BackgColor = new SelectList(db.Colors, "ColorId", "ColorName");
             ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName");
             ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname");
             return View();
+            }
         }
 
         // POST: Sprints/Create
@@ -39,6 +47,13 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "SprintId,SprintName,AdminId,StartDate,EndDate,BackgColor,ProcessColor")] Sprints sprints)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (ModelState.IsValid)
             {
                 //var param = Session["CurrentProject"];
@@ -51,11 +66,19 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.ProcessColor);
             ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", sprints.AdminId);
             return View(sprints);
+            }
         }
 
         // GET: Sprints/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -69,6 +92,7 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.ProcessColor);
             ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", sprints.AdminId);
             return View(sprints);
+            }
         }
 
         // POST: Sprints/Edit/5
@@ -78,6 +102,13 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "SprintId,SprintName,AdminId,StartDate,EndDate,BackgColor,ProcessColor")] Sprints sprints)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (ModelState.IsValid)
             {
                 db.Entry(sprints).State = EntityState.Modified;
@@ -89,11 +120,19 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.ProcessColor = new SelectList(db.Colors, "ColorId", "ColorName", sprints.ProcessColor);
             ViewBag.AdminId = new SelectList(db.Users, "UserId", "Surname", sprints.AdminId);
             return View(sprints);
+            }
         }
 
         // GET: Sprints/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -104,6 +143,7 @@ namespace TaskMasterSovellus.Controllers
                 return HttpNotFound();
             }
             return View(sprints);
+            }
         }
 
         // POST: Sprints/Delete/5
@@ -111,10 +151,18 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             Sprints sprints = db.Sprints.Find(id);
             db.Sprints.Remove(sprints);
             db.SaveChanges();
             return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)

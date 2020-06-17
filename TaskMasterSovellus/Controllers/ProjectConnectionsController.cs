@@ -17,32 +17,34 @@ namespace TaskMasterSovellus.Controllers
         // GET: ProjectConnections
         public ActionResult Index()
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             var projectConnection = db.ProjectConnection.Include(p => p.Projects).Include(p => p.Sprints);
             return View(projectConnection.ToList());
+            }
         }
 
-        // GET: ProjectConnections/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ProjectConnection projectConnection = db.ProjectConnection.Find(id);
-            if (projectConnection == null)
-            {
-                return HttpNotFound();
-            }
-            return View(projectConnection);
-        }
+       
 
         // GET: ProjectConnections/Create
         public ActionResult Create(int? selectedProject, int? selectedSprint)
 
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             //seuraava kaks tarkastus tsekkaa tuliko parametri jota käytätään select listojen selected optionina
             //jos ei tullut parametri, niin laitetaan eka sprint/projekti selected elementiksi
-           if (selectedSprint==null)
+            if (selectedSprint==null)
 	        {
                 selectedSprint = db.Sprints.FirstOrDefault().SprintId;
 	        }
@@ -53,6 +55,7 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", selectedProject);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", selectedSprint);
             return View();
+            }
         }
 
         // POST: ProjectConnections/Create
@@ -62,6 +65,13 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectConnectionId,SprintId,ProjectId")] ProjectConnection projectConnection)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (ModelState.IsValid)
             {
                 db.ProjectConnection.Add(projectConnection);
@@ -73,11 +83,19 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", projectConnection.ProjectId);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", projectConnection.SprintId);
             return View(projectConnection);
+            }
         }
 
         // GET: ProjectConnections/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -90,6 +108,7 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", projectConnection.ProjectId);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", projectConnection.SprintId);
             return View(projectConnection);
+            }
         }
 
         // POST: ProjectConnections/Edit/5
@@ -99,6 +118,13 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProjectConnectionId,SprintId,ProjectId")] ProjectConnection projectConnection)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (ModelState.IsValid)
             {
                 db.Entry(projectConnection).State = EntityState.Modified;
@@ -108,11 +134,19 @@ namespace TaskMasterSovellus.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectName", projectConnection.ProjectId);
             ViewBag.SprintId = new SelectList(db.Sprints, "SprintId", "SprintName", projectConnection.SprintId);
             return View(projectConnection);
+            }
         }
 
         // GET: ProjectConnections/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -123,6 +157,7 @@ namespace TaskMasterSovellus.Controllers
                 return HttpNotFound();
             }
             return View(projectConnection);
+            }
         }
 
         // POST: ProjectConnections/Delete/5
@@ -130,10 +165,18 @@ namespace TaskMasterSovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+
             ProjectConnection projectConnection = db.ProjectConnection.Find(id);
             db.ProjectConnection.Remove(projectConnection);
             db.SaveChanges();
             return RedirectToAction("SprintsOfPrjekt", "SprintTaskList", new { id = projectConnection.ProjectId });
+            }
         }
 
         protected override void Dispose(bool disposing)

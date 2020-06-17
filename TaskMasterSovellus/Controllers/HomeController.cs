@@ -42,7 +42,7 @@ namespace TaskMasterSovellus.Controllers
                 ViewBag.LoginMessage = "Login unsuccessfull";
                 ViewBag.LoggedStatus = "Out";
                 ViewBag.LoginError = 1;//on jotain virhettä kirjautumisessa, tätä tarvitaan sen takia että viewissä jquery päättää kannattako login ikkunan avata uudestaan
-                LoginModel.LoginErrorMessage = "Tuntematon käyttäjätunnus tai salasana.";
+                LoginModel.LoginErrorMessage = "The email or password is incorrect";
                 return View(actionName, LoginModel);
             }
         }
@@ -59,18 +59,6 @@ namespace TaskMasterSovellus.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
